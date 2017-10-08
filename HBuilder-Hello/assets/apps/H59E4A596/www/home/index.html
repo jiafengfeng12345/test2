@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html>
+	<head>		
+		<style>
+			html,body {
+				background-color: #efeff4;
+			}
+			.mui-content{
+				background-color: #f7f7f7;
+			}
+			/*
+			 * 设置搜索框的圆角
+			 */
+			input[type=search] {
+				border-radius: .15rem;;
+			}
+			/*
+			 * 设置轮播图
+			 */
+			.mui-slider .mui-slider-group .mui-slider-item {
+				height: 200px;
+			}
+			.mui-slider-indicator .mui-active.mui-indicator {
+				background: red;
+			}
+			.mui-slider .mui-slider-group .mui-slider-item a {
+				    height: 100%;
+    					width: 100%;
+			}
+			.mui-slider .mui-slider-group .mui-slider-item img {
+				    height: auto;
+				    max-height: 100%;
+				    width: auto;
+				    min-width: 100%;
+			}
+			.mui-slider-indicator {
+				bottom: 20px;
+			}
+			.mui-slider-indicator .mui-indicator {
+				box-shadow: none;
+			}
+			/**
+			 * logo的样式
+			 */
+			.logo {
+				border: 0;
+			    width: 90%;
+			    height: 41px;
+			    padding: 10px 5px;
+			}
+			#tabbar .mui-content {
+				background-color: white;
+			}
+			/**
+			 * 设置coper prices等的样式
+			 */
+			.extraOption {
+				text-align: center;
+				padding-top: 10px;
+				padding-bottom: 15px;
+			}
+			.extraOption img {
+				
+			}
+			.extraOption h6 {
+				margin-top: 0px;
+				color: black;
+			}
+			/*
+			 * Product List头部
+			 */
+			.product-head {
+				height: 40px;
+				padding-top: 8px;
+				border-bottom:1px solid #efebeb;
+				padding: 8px 10px 0px 0px;
+				margin-left: 15px;
+			}
+			.product-head div{
+				float: left;
+				height: 20px;
+				line-height: 20px;
+				font-size: 18px;
+				padding-left: 5px;
+				padding-top: 2px;
+			}
+			.product-head h5 {
+				float: right;
+			}
+			/**
+			 * prodcut
+			 */
+			.mui-card {
+				box-shadow: none;
+				margin:0 0 0 15px;
+				border-bottom: 1px solid #efebeb;
+			}
+			.mui-table-view-cell:after {
+				height: 0px;
+			}
+			.mui-card .mui-table-view .mui-table-view-cell{
+				padding-left: 5px;
+			}
+			.product {
+				margin-top: 0px;
+			}
+			.float-right {
+				float: right;padding-right: 20px;
+			}
+			.product ul li:nth-child(1) span {
+				float: none;
+			}
+			.product ul li {
+				border-bottom: dashed 1px #c8c7cc;
+				font-size: 17px;
+				font-weight: 300;
+				    padding-bottom: 10px !important;
+			}
+			.product ul li:last-child {
+				border-bottom: none;
+			}
+			.product ul li:nth-child(7) {
+				padding-left: 0px;
+				padding-right: 0px;
+			}
+			.product:nth-child(2n) ul li:nth-child(7) {
+				background-color: cornflowerblue;
+			}
+			.product:nth-child(2n + 1) ul li:nth-child(7) {
+				background-color: pink;
+			}
+			.product ul li:nth-child(1) div{
+				font-size: 17px;
+				font-weight: 300;
+				color: #8b8b8b;
+				
+			}
+			.product ul li:nth-child(1) div span{
+				font-weight: 400;
+				color:#8b8b8b;;
+			}
+			.product .mui-row {
+				text-align: center;
+			}
+			.product .mui-row div:nth-child(1) {
+				border-right: solid 1px #c8c7cc;
+			}
+			.product .mui-row div span {
+				font-size: 17px;
+				font-weight: 300;
+			}
+			.product .mui-row div span:last-child {
+				color: gray;
+			}
+			.product ul li:last-child {
+				padding-bottom: 0px;
+			}
+			.product ul li:last-child input[type="number"] {
+				float: right;
+				right: 15px;
+			    width: 140px;
+			    height: 22px;
+			    font-size: 16px;
+			    outline: none;
+			    border-width: 0px;
+			    padding: 0px 6px 0px 0px;
+			    font-weight: 300;
+			    color: black;
+			    text-align: right;
+			}
+			/**
+			 * order按钮
+			 */
+			#order-btn {
+				height: 40px;
+				text-align: center;
+				padding: 0px;
+				margin-bottom: 30px;
+			}
+			.mui-col-xs-4{
+				 width: 25%;
+				 padding: 0;
+			}
+			.mui-col-xs-4 span{
+				display: inline-block;
+				width: 46px;
+				height:46px;
+				border-radius: 23px;
+				padding: 7px;
+			}
+			.mui-col-xs-4:nth-child(1) span{
+				background: #63a5f0;
+			}
+			.mui-col-xs-4:nth-child(2) span{
+				background: #ff9090;
+			}
+			.mui-col-xs-4:nth-child(3) span{
+				background: #f7b321;
+			}
+			.mui-col-xs-4:nth-child(4) span{
+				background: #a29eff;
+			}
+			.mui-col-xs-4 span img{
+				width: 32px;
+				height:32px;
+			}
+			.mui-col-xs-4 h6{
+				margin-top: 10px;
+			}
+		</style>
+	</head>
+	<body style="position: relative;">
+		<header class="mui-bar mui-bar-nav" style="height: 44px; background-color: white;" >
+			<div class="mui-row">
+		        <div class="mui-col-sm-3 mui-col-xs-3">
+		            <img src="img/bedm.png" class="logo"/>
+		        </div>
+		        <div class="mui-col-sm-9 mui-col-xs-9">
+		            <div class="mui-input-row mui-search">
+    						<input type="search" class="mui-input-clear" placeholder="Search">
+					</div>
+		        </div>
+		    </div>
+		    
+		</header>
+		<div class="mui-content">
+			<!--这里放置真实显示的DOM内容-->
+			<div id="slider" class="mui-slider" >
+			  <div class="mui-slider-group mui-slider-loop adList">
+			    <div class="mui-slider-item mui-slider-item-duplicate">
+			      <a href="#"> <img src="img/m.png"> </a>
+			    </div>
+			    <div class="mui-slider-item">
+			      <a href="#"> <img src="img/m.png"> </a>
+			    </div>
+			    <div class="mui-slider-item mui-slider-item-duplicate">
+			      <a href="#"> <img src="img/m.png"> </a>
+			    </div>
+			  </div>
+			  <div class="mui-slider-indicator adListSpan">
+			    <div class="mui-indicator mui-active"></div>
+			    <!--<div class="mui-indicator"></div>-->
+			  </div>
+			</div>
+			<div class="mui-row">
+			    <div class="mui-col-sm-4 mui-col-xs-4 extraOption">
+			    		<span><img src="img/copper.png" /></span>
+			    		<h6>Copper Prices</h6>
+		        </div>
+		        <div class="mui-col-sm-4 mui-col-xs-4 extraOption">
+		        		<span><img src="img/currency.png" /></span>
+		        		<h6>Currency</h6>
+		        </div>
+		        <div class="mui-col-sm-4 mui-col-xs-4 extraOption">
+		        		<span><img src="img/inquiry.png" /></span>
+		        		<h6>Inquiry Q&A</h6>
+		        </div>
+		         <div class="mui-col-sm-4 mui-col-xs-4 extraOption">
+		        		<span><img src="img/ask.png" /></span>
+		        		<h6>Ask questions</h6>
+		        </div>
+			</div>
+			<hr style="height: 10px;background-color: #f7f7f7;border-width: 0px;margin: 0px;" />
+			<div class="mui-content">
+				<div class="product-head">
+					<div>Product List</div>
+					<h5>Quote Time: 2017-01-01</h5>
+				</div>
+			</div>	
+			<div id="product-list">
+				<div class="mui-card product">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell selectGuiGe">
+				            <div class="mui-media-body">
+				                <span>BPcut T</span><span class="seriesAdd">+</span>
+				            </div>
+					    </li>
+					</ul>
+				</div>
+				<div class="mui-card product">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell selectGuiGe">
+				            <div class="mui-media-body">
+				                <span>BPcut T</span><span class="seriesAdd">+</span>
+				            </div>
+					    </li>
+					</ul>
+				</div>
+			</div>
+			<!--<div class="mui-content-padded">
+				<button type="button" class="mui-btn mui-btn-red mui-btn-block" id="order-btn">Order</button>
+			</div>-->
+		</div>
+		<div id="productSheet" class="mui-popover mui-popover-bottom mui-popover-action ">
+			<div class="mui-content">
+			
+			   	<div class="seriesBody">
+			   		<div class="seriesImg">
+			   			<span class="seriesCancel">x</span>
+			   			<div>
+			   				<!--<img src="img/44.png" />-->
+			   			</div>
+			   			<p class="seriesName">null</p>
+			   			<p class="seriesPrice">null<span  class="modeType">(null)</span><span class="priceType">null</span></p>
+			   		</div>
+			   		<div class="seriesGuiGe">
+			   			<p>Wire diameter</p>
+			   			<div class="seriesSpan seriesWireSize">
+			   				<!--<span class="active">0.33</span><span>0.25</span><span>0.33</span><span>0.25</span>-->
+			   			</div>
+			   			
+			   		</div>
+			   		<div class="seriesGuiGe">
+			   			<p>Axle Shaft type</p>
+			   			<div class="seriesSpan seriesAxleLoad">
+			   				<!--<span class="active">P3</span><span>P5</span>-->
+			   			</div>
+			   		</div>
+			   		<div class="seriesGuiGe">
+			   			<p>Status</p>
+			   			<div class="seriesSpan seriesStatus">
+			   				<!--<span class="active">Hard state</span>-->
+			   			</div>
+			   		</div>
+			   		<div class="seriesGuiGe">
+			   			<p>Spool color</p>
+			   			<div class="seriesSpan">
+			   				<span class="active">白色</span>
+			   			</div>
+			   		</div>
+			   		<div class="seriesGuiGe">
+			   			<p>Cu : Zn</p>
+			   			<div class="seriesSpan">
+			   				<span class="active">1:2</span>
+			   			</div>
+			   		</div>
+			   		<div class="seriesGuiGe">
+			   			<p>数量</p>
+			   			<div>
+							<div class="mui-numbox">
+							  <button class="mui-btn mui-numbox-btn-minus" type="button" style="">-</button>
+							  <input class="mui-numbox-input productQuantity" type="number" />
+							  <button class="mui-btn mui-numbox-btn-plus" type="button" style="border-left: 1px solid #ccc">+</button>
+							</div>
+			   			</div>
+			   		</div>
+			   	</div>
+			   	<div class="addCart">
+			   		加入购物车
+			   	</div>
+			</div>
+		</div>
+		<button id="order-btn">ddd</button>
+	</body>
+	<script>
+//		mui('#productSheet').popover('toggle');
+		//轮播
+		$.ajax({
+			type:"post",
+			url:IP + "/oversea/ad/list.html",
+			async:true,
+			dataType:"json",
+			success:function(data) {
+				if (data != null && data.length > 0) {
+					var item = data[0];
+					//href="'+item.jumpUrl+'"
+					var headLi = '<div class="mui-slider-item mui-slider-item-duplicate">' + 
+							      '<a> <img src="'+item.url+'"> </a>' +
+							   '</div>';
+					item = data[data.length - 1];
+					var endLi = '<div class="mui-slider-item mui-slider-item-duplicate">' + 
+							      '<a href="'+item.jumpUrl+'"> <img src="'+item.url+'"> </a>' +
+							   '</div>';
+					var addList = endLi;
+					for(var i=0; i<data.length; i++) {
+						item = data[i];
+						var div = '<div class="mui-slider-item">' + 
+							      '<a href="'+item.jumpUrl+'"> <img src="'+item.url+'"> </a>' +
+							   '</div>';
+						addList += div;
+					}
+					addList += headLi;
+					var addListSpan = '<div class="mui-indicator mui-active"></div>';
+					for (var i=1; i<data.length; i++) {
+						addListSpan += '<div class="mui-indicator"></div>';
+					}
+					$(".adList").html(addList);
+					$(".adListSpan").html(addListSpan);
+					var gallery = mui('.mui-slider');
+					gallery.slider({
+					  interval:5000//自动轮播周期，若为0则不自动播放，默认为0；
+					});
+				}
+			}
+		});
+		//end
+		
+		// 获得系列列表
+		function getproductList(searchValue) {
+			$.ajax({
+			    url: IP + "/oversea/series/list.html",
+			    type:"post",
+			    dataType:"json",
+			    async:false,
+			    data:{
+			    		searchValue:searchValue
+			    },
+			    success:function (data) {
+			    		if (data.result === "error") {
+			    			return;
+			    		}
+			    		var productCard = "";
+			    		var list = data.list;
+			    		list.forEach(function(val,index,arr){
+			    			var series = val;
+			    			var item = "<div class='mui-card product' data-id='" + series.id + "'>" +
+							"<ul class='mui-table-view'>" +
+								"<li class='mui-table-view-cell selectGuiGe'>" +
+	//						        "<img class='mui-media-object mui-pull-left' src='img/helloh5.jpg' style='width: 20px;height: 20px;'>" +
+						            "<div class='mui-media-body'>" +
+						                "<span>" + series.name + "</span>" +
+						            "</div>" +
+							    "</li>" +
+							"</ul>" +
+						"</div>";
+	             		productCard += item;
+					});
+					$("#product-list").html(productCard);
+			    },
+			    error:function(XMLHttpRequest) {
+			    		console.log("error" + XMLHttpRequest);
+			    }
+			});
+		}
+		getproductList('');
+		$("input[type=search]").bind("input propertychange",function(){
+			getproductList($(this).val());
+		});
+		//end
+		var addCartFlag = false;
+		function setPrice(seriesId,axleLoadId,wireSizeId,statusId) {
+			addCartFlag = false;
+			$.ajax({
+				url:IP + "/sap/api/price.html",
+				dataType:"json",
+				type:"post",
+				data:{
+					seriesId: seriesId,
+					axleLoadId: axleLoadId,
+					wireSizeId: wireSizeId,
+					statusId: statusId
+				},
+				success:function(data) {
+					if (data.result === "success") {
+						$(".addCart").attr("price",data.price);
+						$(".addCart").attr("productId", data.productId);
+						var priceDiv = '';
+						$(".seriesPrice").html("¥ "+data.price + '<span class="modeType">(FOB)</span><span class="priceType">Special offer</span>');
+						if (data.type === 'tj') {
+							$(".priceType").show();
+						}
+						$(".modeType").html("(" + data.mode + ")");
+						$(".modeType").show();
+						$(".addCart").remove("disabled");
+						addCartFlag = true;
+					} else {
+						$(".seriesPrice").html("无货");
+					}
+				},
+				error:function() {
+					$(".seriesPrice").html("无货");
+					mui.toast("网络错误");
+				}
+			});
+		}
+		$(".selectGuiGe").click(function() {
+			var $p = $(this).parent().parent();
+			$.ajax({
+				type:"post",
+				url:IP + "/oversea/series/findByQuotes.html",
+				async:true,
+				dataType:"json",
+				data:{
+					id:$p.attr("data-id")
+				},
+				success:function(data) {
+					if (data.result === "success") {
+						$(".seriesImg div").html('<img src="'+data.imgSrc+'" />');
+						console.log(data.seriesName);
+						$(".seriesName").html(data.seriesName);
+						
+						var wireSizeList = data.wireSizeList;
+						var seriesWireSize = '';
+						for (var i=0; i<wireSizeList.length; i++) {
+							item = wireSizeList[i];
+							var span = '<span data-id="'+item.id+'">'+item.name+'</span>';
+							seriesWireSize += span;
+						}
+						$(".seriesWireSize").html(seriesWireSize);
+						$(".seriesWireSize span:first").addClass("active");
+						
+						var axleLoadList = data.axleLoadList;
+						var seriesAxleLoad = '';
+						for (var i=0; i<axleLoadList.length; i++) {
+							item = axleLoadList[i];
+							var span = '<span data-id="'+item.id+'">'+item.name+'</span>';
+							seriesAxleLoad += span;
+						}
+						$(".seriesAxleLoad").html(seriesAxleLoad);
+						$(".seriesAxleLoad span:first").addClass("active");
+						
+						var statusList = data.statusList;
+						var seriesStatus = '';
+						for (var i=0; i<statusList.length; i++) {
+							item = statusList[i];
+							var span = '<span data-id="'+item.id+'">'+item.name+'</span>';
+							seriesStatus += span;
+						}
+						$(".seriesStatus").html(seriesStatus);
+						$(".seriesStatus span:first").addClass("active");
+						
+						$(".productQuantity").val(1);
+						
+						mui('#productSheet').popover('toggle');
+						setPrice(data.id, axleLoadList[0].id, wireSizeList[0].id, statusList[0].id);
+						
+						$(".seriesSpan span").click(function(){
+							$(this).siblings().removeClass("active");
+							$(this).addClass("active");
+							var axleLoadId = $(".seriesAxleLoad span.active").attr("data-id");
+							var wireSizeId = $(".seriesWireSize span.active").attr("data-id");
+							var statusId = $(".seriesStatus span.active").attr("data-id");
+							setPrice(data.id,axleLoadId,wireSizeId,statusId);
+						})
+					} else if (data.result === "error") {
+						mui.toast(data.content);
+					}
+						
+				},
+				error:function() {
+					mui.toast("网络错误");
+				}
+			});
+			
+		})
+//		mui("#productSheet").popover('toggle');
+		$(".seriesCancel").click(function() {
+			mui('#productSheet').popover('toggle');
+		})
+		function checkNumber(num) {
+			var reg = new RegExp("^[0-9]*$");
+			if(num == null || $.trim(num) == "" || !reg.test(num)) {
+				return false;
+			}
+			return true;
+		}
+		$(".seriesGuiGe .mui-numbox-btn-minus").click(function(){
+			var num = $(".productQuantity").val();
+			if(!checkNumber(num)) {
+				mui.toast("请输入正确的数量");
+				return;
+			}
+			var number = parseInt(num) - 1;
+			if (number < 0) {
+				number = 0;
+			}
+			$(".productQuantity").val(number);
+		})
+		$(".seriesGuiGe .mui-numbox-btn-plus").click(function(){
+			var num = $(".productQuantity").val();
+			if(!checkNumber(num)) {
+				mui.toast("请输入正确的数量");
+				return;
+			}
+			var number = parseInt(num) + 1;
+			$(".productQuantity").val(number);
+		})
+		
+		$(".addCart").click(function(){
+			var reg = new RegExp("^[0-9]*$");
+			if (!addCartFlag)
+				return;
+			var num = $(".productQuantity").val();
+			if(!checkNumber(num)) {
+				mui.toast("请输入正确的数量");
+				return;
+			}
+			if(parseInt(num) <= 0) {
+				mui.toast("数量不能为0")
+				return;
+			}
+			var $add = $(this);
+			$.ajax({
+				type:"post",
+				url:IP + "/oversea/cart/add.html",
+				async:true,
+				dataType:"json",
+				data:{
+					productId:$add.attr("productId"),
+					price:$add.attr("price"),
+					quantity:parseInt(num)
+				},
+				success:function(data) {
+					if (data.result === "success") {
+						$(".productQuantity").val(1)
+						mui.toast("已添加入购物车");
+					} else if(data.result === "error") {
+						mui.toast(data.content);
+					}
+				}
+			});
+		});
+	
+		$("a[href='#tabbar-cart']").click(function(){
+			goPage("cart.html");
+			return;
+			var reg = new RegExp("^[0-9]*$");
+			var checkFlag = true;
+			var order = {};
+			var index = 0;
+			for (var i = 0; i < productList.length; i++) {
+				product = productList[i];
+				if (product.num != null && $.trim(product.num) != "") {
+					if(!reg.test(product.num)) {
+						mui.toast("系列" + product.name + "的数量出错");
+						checkFlag = false;
+						return;
+					}
+					var k = "orderItems[" + index + "].";
+					console.log(product.productId);
+					order[k+"mode"] = "jx";
+					order[k+"product.id"] = product.productId;
+					order[k+"quantity"] = product.num;
+					order[k+"price"] = product.price;
+					index++;
+				}
+			}
+			if (checkFlag === false) {
+				return;
+			}
+			if (index === 0) {
+				mui.toast("请输入数量下单哦");
+				return;
+			}
+			console.log("xxx");
+			console.log(JSON.stringify(order))
+			$.ajax({
+				type:"post",
+				url:IP + "/oversea/order/create.html",
+				async:true,
+				data:order,
+				dataType:"json",
+				success:function(data) {
+					if (data.result === "success") {
+						mui.toast("下单成功");
+					} else {
+						mui.toast(data.content);
+					}
+				},
+				error:function() {
+					mui.toast("网络出错");
+				}
+			});
+		});
+	</script>
+</html>

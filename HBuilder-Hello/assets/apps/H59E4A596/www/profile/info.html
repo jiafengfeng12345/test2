@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>博德高科 - 个人信息</title>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script src="../js/rem.js"></script>
+    <script src="../js/base.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/all.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/base.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/page.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/loaders.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/loading.css"/>
+    <script type="text/javascript">
+        $(window).load(function () {
+            $(".loading").addClass("loader-chanage");
+            $(".loading").fadeOut(300);
+        });
+    </script>
+    <style>
+		.box-s.clearfloat{
+            padding:2% .4rem;
+        }
+
+        .box-s.clearfloat>p.tit{
+            text-align: left;
+            border-bottom: 1px solid #f0f0f1;
+            width: 25%;
+            line-height: 0.92rem;
+        }
+        .submit {
+            display: block;
+            width: 120px;
+            height: 33px;
+            line-height: 33px;
+            font-size: 16px;
+            background-color: #A52A2A;
+            text-align: center;
+            border-radius: 7px;
+            color: white;
+            margin: 10px auto 15px;
+        }
+        .red_span {
+            color: red;
+        }
+        .land-ctent ul li {
+        	border-bottom: none;
+        }
+        .pay-bottom ul li .xinxi {
+        	border-bottom: 1px solid #f0f0f1;
+        }
+        .touxiang {
+        		width: 70px;
+        		height: 70px; 
+        		/*margin:auto;*/
+        		display: block;
+        		border: 1px solid #ccc;
+        		border-radius: 60px;
+        		position: absolute;
+        		right: 0px;
+        }
+        .imgDiv {
+        	    position: relative;
+		    width: 75%;
+		    height: 80px;
+		    margin-left: 25%;
+		    border-bottom: 1px solid #f0f0f1;
+        }
+    </style>
+     <link rel="shortcut icon" href="favicon.ico" />
+</head>
+
+<body>
+<div class="app-head clearfloat" id="header">
+    <a href="javascript:back()" class="fl box-s"><i class="iconfont icon-arrow-l fl"></i></a>
+    <p class="fl">My Profile</p>
+</div>
+
+<div class="pay clearfloat" id="main">
+    <form class="land-ctent clearfloat pay-bottom" id="inputForm" action="staff/update.html" method="post" returnUrl="info.html" enctype="multipart/form-data">
+		<div class="land-ctent clearfloat pay-bottom">
+			<ul>
+				<li class="box-s clearfloat touxiangLi">
+					<p class="tit fl" style="height: 80px;line-height: 80px;">Photo</p>
+					<div class="imgDiv">
+						<img src="../img/touxiang.png" class="touxiang fl"/>
+					</div>
+				</li>
+				<!--<input type="file" style="display: none;" id="file" name='file' onchange="filechange(event)"/>-->
+				<li class="box-s clearfloat">
+					<p class="tit fl">Username</p>
+					<input class="xinxi fr" name="username">
+				</li>
+				<li class="box-s clearfloat">
+					<p class="tit fl">E-mail</p>
+					<input class="xinxi fr" name="email"/>
+				</li>
+				<li class="box-s clearfloat">
+					<p class="tit fl">Mobile</p>
+					<input class="xinxi fr" name="mphone"/>
+				</li>
+				<li class="box-s clearfloat" style="border-bottom: 1px solid #f0f0f1;">
+					<p class="tit fl" style="border-bottom: none;">Name</p>
+					<input class="xinxi fr" style="border-bottom: none;" name="name"/>
+				</li>
+				<li class="box-s clearfloat">
+					<input type="hidden" name="id">
+					<a class="submit">Update</a>
+				</li>
+			</ul>
+		</div>
+    </form>
+</div>
+</body>
+</html>
+<script type="text/javascript" src="../js/hmt.js"></script>
+<script src="../js/jquery.form.js"></script>
+<script src="../js/mui.min.js"></script>
+<script>
+	function plusReady(){
+		if (mui.os.ios) {
+			plus.navigator.setStatusBarBackground("#fafafa");
+		}
+	}
+	function back(){
+		var pre = plus.webview.getWebviewById("profile/index.html");
+		mui.fire(pre,"init");
+		mui.back();
+	}
+	document.addEventListener("plusready",plusReady,false);
+	
+	
+//	var filechange=function(event){
+//  		var files = event.target.files, file;
+//	    if (files && files.length > 0) {
+//	    	
+//	    		var name = event.target.value;
+//      		var fileName = name.substring(name.lastIndexOf(".")+1).toLowerCase();
+//      		console.log(name);
+//      		if (fileName !== 'gif' && fileName !== 'jpeg' && fileName !== 'jpg' && fileName !== 'png' && fileName !== 'svg') {
+//         		mui.toast("只支持gif,jpeg,jpg,png,svg")
+//          		return false;
+//     		}
+//      
+//	        // 获取目前上传的文件
+//	        file = files[0];// 文件大小校验的动作
+//	        if(file.size > 1024 * 1024 * 5) {
+//	            mui.toast('图片大小不能超过 5MB!');
+//	            return false;
+//	        }
+//	        
+//	        // 获取 window 的 URL 工具
+//	        var URL = window.URL || window.webkitURL;
+//	        // 通过 file 生成目标 url
+//	        var imgURL = URL.createObjectURL(file);
+////	        console.log(1);
+////	        plus.storage.setItem("imgSrc",imgURL);
+//	        //用attr将img的src属性改成获得的url
+//	        $(".touxiang").attr("src",imgURL);
+//	        // 使用下面这句可以在内存中释放对此 url 的伺服，跑了之后那个 URL 就无效了
+//	        // URL.revokeObjectURL(imgURL);
+//	    }
+//	};
+	
+	$("form").attr("action",IP + "/oversea/staff/update.html");
+	function createUpload(path,dst) {
+		plus.uploader.clear();
+		var task = plus.uploader.createUpload(IP + "/oversea/staff/updateImage.html", 
+			{ method:"POST",blocksize:204800,priority:100 },
+			function ( t, status ) {
+				plus.nativeUI.closeWaiting();
+				// 上传完成
+				if ( status == 200 ) { 
+					$(".touxiang").attr("src",path);
+					mui.toast("upload success");
+				} else {
+					mui.toast("Upload failed: " + status);
+				}
+			}
+			);
+			task.addFile( dst, {key:"file"} );
+			task.addData( "id", $("input[name=id]").val() );
+			//task.addEventListener( "statechanged", onStateChanged, false );
+			task.start();
+	}
+	function compressImage(src,dst){
+		console.log(src);
+		console.log(dst);
+		plus.zip.compressImage({
+				src:src,
+				dst:dst,
+				quality:100,
+				width:"100px",
+				height:"100px"
+			},
+			function() {
+				createUpload(src,dst);
+			},function(error) {
+				plus.nativeUI.closeWaiting();
+				mui.toast("Compress error!");
+		});
+	}
+	$(".touxiang").click(function(){
+		plus.nativeUI.actionSheet( {cancel:"取消",buttons:[{title:"相册"},{title:"拍照"}]}, function(e){
+			if (e.index == 1) {
+				plus.gallery.pick( function(path){
+					$(".touxiang").attr("src",path);
+					var fileName = path.substring(path.lastIndexOf(".")+1).toLowerCase();
+		        		if (fileName !== 'gif' && fileName !== 'jpeg' && fileName !== 'jpg' && fileName !== 'png' && fileName !== 'svg') {
+		           		mui.toast("只支持gif,jpeg,jpg,png,svg");
+		       		} else {
+		       			var dst = "_doc/" + Date.parse(new Date()) + "." + fileName;
+						compressImage(path,dst);
+		       		}
+			    }, function ( e ) {
+			    		mui.toast( "cancel select photo" );
+			    }, {filter:"image"} );
+			} else if(e.index == 2) {
+				var cmr = plus.camera.getCamera();
+				var res = cmr.supportedImageResolutions[0];
+				var fmt = cmr.supportedImageFormats[0];
+				console.log("Resolution: "+res+", Format: "+fmt);
+				plus.nativeUI.showWaiting();
+				cmr.captureImage( function( path ){ 	 
+						plus.io.resolveLocalFileSystemURL(path, function(entry) {
+//							$(".touxiang").attr("src",entry.toLocalURL());
+							var dst = "_doc/" + Date.parse(new Date()) + "." + fmt;
+							compressImage(entry.toLocalURL(),dst);
+						   }, function(e) {
+						   	mui.toast("read image failed");
+						});
+						
+					},
+					function( error ) {
+						plus.nativeUI.closeWaiting();
+						mui.toast( "Capture image failed: " + error.message );
+					},
+					{resolution:res,format:fmt}
+				);
+			}
+		} );
+	})
+	$.ajax({
+		type:"post",
+		url: IP + "/oversea/staff/staffInfo.html",
+		dataType: "json",
+		success: function(re){
+			if(re.result === "success"){
+				var src = re.staff.imgSrc;
+				if (src != null && $.trim(src) != '') {
+					$(".touxiang").attr("src",src);
+				}
+				$("input[name=username]").val(re.staff.username);
+				$("input[name=email]").val(re.staff.email);
+				$("input[name=mphone]").val(re.staff.mphone);
+				$("input[name=name]").val(re.staff.name);
+				$("input[name=id]").val(re.staff.id);
+//				$(".profileUsername").text(re.staff.username);
+			}
+		},
+		error: function(){
+			console.log("error");
+		}
+	});
+    $(".submit").click(function () {
+
+	    var $mustInput = $(".red_span").parent().next();
+	    var infoComplete = true;
+	    $.each($mustInput, function () {
+		    if ($(this).val() === "") {
+			    infoComplete = false;
+		    }
+	    });
+	    if (infoComplete) {
+		    $("form").ajaxSubmit({
+			    success: function () {
+				    alert("修改成功")
+			    },
+			    error: function () {
+				    alert("修改失败");
+			    }
+		    });
+	    } else {
+		    alert("请补全信息")
+	    }
+    })
+</script>

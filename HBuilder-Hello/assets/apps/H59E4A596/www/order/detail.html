@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<title>博德高科 - 我的订单</title>
+	<link rel="stylesheet" type="text/css" href="../css/all.css"/>
+	<link rel="stylesheet" type="text/css" href="../css/base.css"/>
+	<link rel="stylesheet" type="text/css" href="../css/page.css"/>
+	<link rel="stylesheet" type="text/css" href="../css/orderDetail.css"/>
+	<link rel="stylesheet" href="../css/mui.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/simple-line-icons.css"/>
+	<style>
+		.option {
+			padding: 10px;
+			background-color: white;
+			height: 60px;
+		}
+		.option #agree {
+			float: right;
+			width: 50px;
+			margin-right: 10px;
+		}
+		.option #disAgree {
+			float: right;
+			
+			width: 50px;
+		}
+	</style>
+</head>
+<body>
+<div class="app-head clearfloat" id="header">
+	<a href="javascript:history.go(-1)" class="fl box-s mui-action-back"><i class="iconfont icon-arrow-l fl"></i></a>
+	<p class="fl">Detail</p>
+</div>
+<div class="mui-content" id="order-detail" style="padding-top: 1.6rem;"> </div>
+</body>
+</html>
+<script src="../js/rem.js"></script>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/mui.min.js"></script>
+<!--<script src="js/"></script>-->
+<script type="text/javascript" src="../js/base.js"></script>
+<script>
+	function init() {
+		$.ajax({
+			url: IP + "/oversea/order/detail.html",
+			type: "get",
+			data: {id: GetQueryString("id") },
+			dataType: "json",
+			success: function (data) {
+				var payName,
+					status;
+				switch (data.paymentMethodName) {
+					case "zfb": {
+						payName = "Ali pay";
+						break;
+					}
+					case "wx": {
+						payName = "Tencent pay";
+						break;
+					}
+					case "xxzf": {
+						payName = "Pay offline";
+						break;
+					}
+					case "zq": {
+						payName = "Account period";
+						break;
+					}
+				}
+				var optionDiv = '';
+				switch (data.status) {
+					case "pendingPayment": {
+						status = "Unpaid";
+						break;
+					}
+					case "pendingConfirm": {
+						status = "Unconfirmed";
+						break;
+					}
+					case "pendingModifyConfirm" : {
+						status = "修改待确认";
+						optionDiv = '<div class="option"><button id="disAgree" data-sn="'+data.sn+'">disagree</button><button id="agree" data-sn="'+data.sn+'">agree</button></div>';
+						break;
+					}
+					case "confirm": {
+						status = "confirm";
+						break;
+					}
+					case "shipped": {
+						status = "shipped";
+						break;
+					}
+					case "pendingReview": {
+						status = "Unreviewed";
+						break;
+					}
+					case "completed": {
+						status = "completed";
+						break;
+					}
+					case "canceled": {
+						status = "canceled";
+						break;
+					}
+					case "closed": {
+						status = "closed";
+						break;
+					}
+				}
+				var orderDetail =
+					"<div class='rent clearfloat' id='main'>"+
+						"<div class='top clearfloat'>"+
+							"<div class='addrSelect'> "+
+								"<ul>" +
+									"<li>" +
+										"<p><span style='color: #8d8d8d;'>order time：</span>" + data.createDate + "</p>"+
+									"</li>"+
+									"<li>" +
+										"<p><span style='color: #8d8d8d;'>order number：</span>" + data.sn + "</p>"+
+									"</li>"+
+								"</ul>"+
+							"</div>"+
+						"</div>"+
+						"<div class='schedule clearfloat collection'>" +
+							"<div class='content clearfloat box-s order'> "+
+								"<div class='list clearfloat fl box-s orderItem t-no-border' style='padding-bottom: 0'> "+
+									"<div class='orderStatus'> "+
+										"<span>product</span>"+
+										"<span class='status'>" + status + "</span>"+
+									"</div>";
+							for (var i = 0;i < data.itemDtos.length;i++) {
+								var status;
+								if (data.itemDtos[i].statusName === "硬态") {
+									status = "hard";
+								} else {
+									status = "soft";
+								}
+								
+								var priceUnit = data.itemDtos[i].priceUnit;
+								var priceCode = "";
+								if(priceUnit == "RMB"){
+									priceCode = "RMB¥";
+								}else if(priceUnit == "USD"){
+									priceCode = "$";
+								}else if(priceUnit == "EUR"){
+									priceCode = "€";
+								}else if(priceUnit == "CAD"){
+									priceCode = "C$";
+								}else if(priceUnit == "JPY"){
+									priceCode = "JPY¥";
+								}
+								console.log(priceUnit);
+								
+								orderDetail +=
+									"<a href='#' style='display: flex;height: 2.1rem;width: 100%;position:relative;'>"+
+										"<div class='tu clearfloat' style='margin-right: 0.3rem'> "	+
+											"<span></span>"+
+											"<img src=' " + data.itemDtos[i].imgSrc + "'/>"+
+										"</div>"+
+										"<div class='right clearfloat'> "+
+											"<div class='tit clearfloat'>"+
+												"<p class='fl' style='font-size: 0.4rem;margin-top: 0.1rem'>" + data.itemDtos[i].seriesName +
+													"<span style='float: right;color: black;font-weight: 400'>X" + data.itemDtos[i].quantity + "</span>"+
+												"</p>"+
+											"</div>"+
+											"<p class='recom-jianjie' style='margin-top: 0; color: #9d9d9d;font-size: 0.3rem;'>" +
+												"Wire diameter：" + data.itemDtos[i].wireSizeName + "Axle weight ：" + data.itemDtos[i].axleLoadName + "Status：" + status +
+											"</p>"+
+											"<div class='recom-bottom clearfloat apc' style='position: absolute;bottom: 5px;'> "+
+												"<span style='border:0;padding-left:0;font-size: .4rem;float: left;'>" + priceCode + " " + data.itemDtos[i].price +  "<samp></samp></span>"+
+											"</div>"+
+										"</div>"+
+									"</a>";
+							}
+							orderDetail +=
+								"</div>" +
+							"</div>"+
+						"</div>"+
+						"<div class='top clearfloat' style='margin-top: 0.3rem'>" +
+							"<div class='topsche-top box-s clearfloat t-no-border' style='padding-right: 0.3rem'> "+
+								"<div class='userAddress' style='color: black;height:40px'> "+
+//									"<p>" +
+//										"<span class='name' style='padding-right: 0.5rem;font-size:0.39rem;'>" + data.receiveName + "</span>"+
+//										"<span class='phone'> " + data.phone + "</span>"+
+//									"</p>"+
+									"<p class='addr' style='margin-top: 6px' >" + data.fullAddress + "</p>"+
+								"</div>"+
+								"<div class='fl add summary orderInfo'> "+
+									"<div>" +
+										"<span style='color: #adadad;width:105px;'>Order creator：</span><span style='color: #4c4c4c;'>" + data.username + "</span>" +
+									"</div>"+
+									"<div>" +
+										"<span style='color: #adadad;'>Quantity：</span><span style='color: #4c4c4c;'>" + data.quantity + "</span>" +
+									"</div>"+
+									"<div>" +
+										"<span style='color: #adadad;'>Total：</span><span style='color: #4c4c4c;'>" + data.totalAmount+ "</span>" +
+									"</div>"+
+									"<div>" +
+										"<span style='color: #adadad;'>Payment：</span><span style='color: #4c4c4c;'>" + payName + "</span>" +
+									"</div>"+
+								"</div>"+
+							"</div>" +
+						"</div> "+
+					"</div>";
+				$("#order-detail").empty().append(orderDetail + optionDiv);
+				if (data.status === 'pendingModifyConfirm') {
+					document.getElementById("agree").addEventListener('tap', function(e) {
+						$.ajax({
+							url:IP + "/oversea/order/orderAgree.html",
+							dataType:"json",
+							type:"post",
+							data:{
+								sn:data.sn
+							},
+							success:function (data) {
+								if (data.result === "success") {
+									init();
+								} else {
+									mui.toast(data.content);
+								}
+				
+							},
+							error:function (data) {
+								mui.toast("网络错误");
+							}
+						})
+						
+					})
+							
+					document.getElementById("disAgree").addEventListener('tap', function(e) {
+						e.detail.gesture.preventDefault(); //修复iOS 8.x平台存在的bug，使用plus.nativeUI.prompt会造成输入法闪一下又没了
+						var btnArray = ['yes', 'no'];
+						mui.prompt('Please enter refuse reason：', 'refuse reason', 'refuse modify', btnArray, function(e) {
+							if (e.index == 0) {
+								$.ajax({
+									url:IP + "/oversea/order/orderDisAgree.html",
+									dataType:"json",
+									type:"post",
+									data:{
+										sn:data.sn,
+										reason:e.value
+									},
+									success:function (data) {
+										if (data.result === "success") {
+											init();
+										} else {
+											mui.toast(data.content);
+										}
+									},
+									error:function (data) {
+										mui.toast("网络错误");
+									}
+								})
+				//				info.innerText = '谢谢你的评语：' + e.value;
+							} else {
+				//				info.innerText = '你点了取消按钮';
+							}
+						})
+					});
+				}
+			},
+			error: function () {
+				console.log("网络异常");
+			}
+		});
+	}
+	init();
+	
+	function getQueryString(name) {
+		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+		var r = window.location.search.substr(1).match(reg);
+		if (r != null) return unescape(r[2]);
+		return null;
+	}			
+		
+</script>
+

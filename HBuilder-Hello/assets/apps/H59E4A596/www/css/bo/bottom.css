@@ -1,0 +1,56 @@
+.bottom{
+	width:100%;
+	height:44px;
+	position:fixed;
+	z-index: 10;
+	left:0;
+	bottom:0;
+	border-top:1px solid #cdcdcd;
+}
+.bottom_list{
+	display: inline-block;
+	width: 23%;
+	height:44px;
+}
+.mui-icon{
+	color:#8f8f94;
+	font-size:24px;
+	margin-top: 3px;
+}
+.mui-icon .iconfont{
+	font-size: 22px;
+}
+.bottom_list span{
+	display: block;
+	width: 100%;
+	text-align: center;
+}
+.bottom_list span:last-child{
+	font-size:14px;
+	color:#8f8f94;
+	margin-top: -5px;
+}
+.email{
+	position: relative;
+}
+.mui-icon .mui-badge{
+	position: absolute;
+	width:16px;
+	height:16px;
+	border-radius: 8px;
+	z-index: 11;
+	left:65%;
+	top:3px;
+}
+.mui-icon.email span{
+	color: #fff;
+	text-align: center;
+	line-height: 16px;
+	font-size:12px;
+}
+.mui-icon.active{
+	color:#ba3042;
+}
+.bottom_list span:last-child.active{
+	color:#ba3042;
+}

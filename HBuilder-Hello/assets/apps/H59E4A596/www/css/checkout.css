@@ -1,0 +1,327 @@
+.checkout {
+    font-size: 0.3rem;
+    padding-bottom: 2rem;
+    background-color: #f4f4f4;
+}
+
+.checkout a:link, .checkout a:visited {
+    color: #333;
+}
+
+.checkout a {
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.checkout i {
+    font-size: .4rem;
+}
+
+.checkout .selected {
+    border: 1px solid #b4282b !important;
+}
+
+.checkout ul {
+    padding-top: 13%;
+}
+
+.checkout ul .li-header {
+    font-weight: 700;
+    font-size: .4rem;
+    margin-bottom: .2rem;
+}
+
+.checkout ul .li-header-2 {
+    display: flex;
+    margin-bottom: .2rem;
+}
+
+.checkout ul .li-header-2 .li-header-2-left {
+    flex-grow: 1;
+    font-size: .4rem;
+    font-weight: 700;
+    align-items: center;
+    text-align: left;
+    height: .7rem;
+    line-height: .7rem;
+}
+
+.checkout ul .li-header-2 .li-header-2-right {
+    flex-grow: 1;
+    text-align: right;
+    align-items: center;
+    height: .7rem;
+    line-height: .7rem;
+}
+
+.checkout ul .checkItem {
+    background-color: #fff;
+    margin-top: .3rem;
+    margin-bottom: .3rem;
+    padding: .5rem;
+    padding-top: .4rem;
+}
+
+.checkout ul .reciver-name .name {
+    display: inline-block;
+    width: 21%;
+    margin: .15rem 1rem .15rem 0;
+    border: 1px solid #BBBBBB;
+    text-align: center;
+    color: #999999;
+}
+
+.checkout ul .reciver-detail {
+    font-size: .2rem;
+    color: #BBBBBB;
+    margin-bottom: .2rem;
+    margin-top: .2rem;
+}
+
+.checkout ul .reciver-detail span {
+    margin: .2rem;
+}
+
+.checkout ul .list-way {
+    margin-bottom: .2rem;
+}
+
+.checkout ul .list-way .way {
+    color: #999999;
+    display: inline-block;
+    border: 1px solid #BBBBBB;
+    padding: .05rem .3rem;
+    margin-right: .2rem;
+    margin-left: .1rem;
+}
+
+.checkout ul .list-goods .goods {
+    display: flex;
+    justify-content: space-between;
+    margin-top: .3rem;
+    border-bottom: 1px solid #BBBBBB;
+    padding: .1rem 0;
+}
+
+.checkout ul .list-goods .goods:last-child {
+    border-bottom: none;
+}
+
+.checkout ul .list-goods .goods .img {
+    width: 2rem;
+    height: 2rem;
+    margin: 0 auto;
+}
+
+.checkout ul .list-goods .goods .goods-detail {
+    text-align: left;
+    width: 30%;
+}
+
+.checkout ul .list-goods .goods .img-warp {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    width: 30%;
+}
+
+.checkout ul .list-goods .goods .goods-detail span {
+    margin-right: .4rem;
+}
+
+.checkout ul .list-goods .goods .goods-detail .name span {
+    font-weight: 700;
+}
+
+.checkout ul .list-goods .goods .goods-detail .type span {
+    color: #bbbbbb;
+}
+
+.checkout ul .list-goods .goods .price-detail {
+    flex-grow: 1;
+    position: relative;
+}
+
+.checkout ul .list-goods .goods .price-detail .price-detail-2 {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-bottom: .1rem;
+}
+
+.checkout ul .list-goods .goods .price-detail .price-detail-1 {
+    position: absolute;
+    right: 0;
+}
+
+.checkout ul .list-goods .goods .price-detail .price-detail-2 .price {
+    font-size: .4rem;
+    font-weight: 600;
+    color: #b4282b;
+}
+
+.checkout ul .invoice {
+    flex-grow: 1;
+}
+
+.checkout ul .invoice span {
+    font-size: .2rem;
+    color: #BBBBBB;
+    margin-right: .4rem;
+}
+
+.checkout ul .editInvoice {
+    flex-grow: 1;
+    text-align: right;
+}
+
+.checkout ul .list-discount .discount {
+    display: inline-block;
+    margin-right: .5rem;
+}
+
+.checkout ul .count {
+    display: flex;
+    font-size: .4rem;
+    margin: .2rem 0;
+    color: #BBBBBB;
+}
+
+.checkout ul .count .count-left {
+    flex-grow: 1;
+}
+
+.checkout ul .count .count-right {
+    flex-grow: 1;
+    text-align: right;
+}
+
+.checkout .foot {
+    position: fixed;
+    bottom: 0;
+    background-color: #fff;
+    height: 1.3rem;
+    width: 100%;
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+    font-size: .4rem;
+    border-top: 1px solid rgba(0,0,0,.2);
+    color: #b4282b;
+}
+
+.checkout .foot .total-price {
+    margin: 0 .1rem;
+    flex-grow: 1;
+}
+
+.checkout .foot .go-pay {
+    width: 32%;
+    background-color: #b4282b;
+    height: 100%;
+    text-align: center;
+    margin-left: .1rem;
+}
+
+.checkout .foot .go-pay > a {
+    color: #ffffff;
+    height: 1.3rem;
+    line-height: 1.3rem;
+}
+
+div.list-discount {
+    margin-top: 32px;
+}
+
+div.list-discount > div {
+    float: left;
+    height: 2.17rem;
+    width: 4.9rem;
+    position: relative;
+    margin-bottom: 0.1rem;
+    /*left: 50%;*/
+    /*transform: translateX(-50%);*/
+}
+
+div.list-discount > div a.pick {
+    display: block;
+    position: relative;
+    left: 50%;
+    top: 66%;
+    width: 3rem;
+    height: 0.6rem;
+    background-color: #fff;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 0.6rem;
+    transform: translate(-50%, 0);
+    cursor: pointer;
+}
+
+div.list-discount > div div.rmb-icon {
+    position: absolute;
+    left: 15%;
+    top: 15%;
+    padding: 0;
+    font-size: 0.6rem;
+    color: #ffffff;
+}
+
+div.list-discount > div div.price {
+    position: absolute;
+    top: 10%;
+    left: 25%;
+    color: #ffffff;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+div.list-discount > div div.dic {
+    position: absolute;
+    font-size: 0.6rem;
+    color: #ffffff;
+    left: 47%;
+    top: 5%;
+}
+
+div.list-discount > div div.satisfy {
+    position: absolute;
+    color: #ffffff;
+    left: 48%;
+    top: 39%;
+}
+
+div.list-discount div.red {
+    background-image: url("../img/red.png");
+    background-size: 188px 83px;
+}
+
+div.list-discount div.red a.pick {
+    color: #ac1c2e;
+}
+
+div.list-discount div.gold {
+    background-image: url("../img/gold.png");
+    background-size: 188px 83px;
+}
+
+div.list-discount div.gold a.pick {
+    color: #b29e7a;
+}
+
+div.list-discount div.gray {
+    background-image: url("../img/gray.png");
+    background-size: 188px 83px;
+}
+
+div.list-discount div.gray a.pick {
+    color: #898989;
+}
+
+div.list-discount:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+/*# sourceMappingURL=checkout.css.map */

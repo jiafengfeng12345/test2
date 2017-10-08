@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<title>博德高科 - 我的订单</title>
+		<!--<script type="text/javascript" src="js/jquery.min.js"></script>-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<!--<link rel="stylesheet" type="text/css" href="../css/all.css"/>-->
+		<link rel="stylesheet" type="text/css" href="../css/base.css" />
+		<!--<link rel="stylesheet" type="text/css" href="../css/page.css"/>-->
+		<link rel="stylesheet" type="text/css" href="../css/order.css" />
+		<link rel="stylesheet" href="../css/bo/bottom.css" />
+		<link rel="stylesheet" href="../css/bo/iconfont.css" />
+		<link rel="shortcut icon" href="favicon.ico" />
+		<style>
+    			.bottom_list span:last-child{
+					font-size:14px;
+				}
+				header{
+					height:44px;
+					padding:0;
+				}
+				.app-head p{
+					width: 100%;
+					text-align: center;
+				}
+				.iconfont{
+					font-size: 20px;
+				}
+				
+    		</style>
+	</head>
+
+	<body>
+		<header class="app-head clearfloat" id="header">
+			<!--<a href="javascript:back();" class="fl box-s back"><i class="iconfont icon-arrow-l fl"></i></a>-->
+			<p class="fl">All orders<i class="iconfont icon-f11-copy-copy"></i></p>
+		</header>
+		<div class="mui-content"></div>
+		<div class="bottom">
+			<div class="bottom_list home">
+				<span class="mui-icon"><i class="iconfont icon-shouye"></i></span>
+				<span>Home</span>
+			</div>
+			<div class="bottom_list cart">
+				<span class="mui-icon "><i class="iconfont icon-gouwuchekong"></i><span class="cartNum">0</span></span>
+				<span >Cart</span>
+			</div>
+			<div class="bottom_list Order">
+				<span class="mui-icon email active"><i class="iconfont icon-quanbudingdan"></i></span>
+				<span class="active">Order</span>
+			</div>
+			<div class="bottom_list profile">
+				<span class="mui-icon"><i class="iconfont icon-ren"></i></span>
+				<span>Me</span>
+			</div>
+		</div>
+	</body>
+	
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/rem.js"></script>
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/base.js"></script>
+	<script src="../js/showCartNum.js"></script>
+	<script>
+		var isShow = false;
+		$("#header").find("p").click(function(){
+			var list = plus.webview.getWebviewById("list.html");
+			if(isShow){
+				$("header").find("p").find("i").addClass("icon-f11-copy-copy").removeClass("icon-f11-copy");
+				mui.fire(list,"fresh",{
+					isShow:isShow
+				});
+				isShow = false;
+			}else{
+				$("header").find("p").find("i").removeClass("icon-f11-copy-copy").addClass("icon-f11-copy");
+				mui.fire(list,"fresh",{
+					isShow:isShow
+				});
+				isShow = true;
+			}
+			
+		});
+		window.addEventListener("re",function(event){
+			var type = event.detail.type;
+			$("header").find("p").text(type).append("<i class='iconfont icon-f11-copy'></i>");
+			$("header").find("p").find("i").addClass("icon-f11-copy-copy").removeClass("icon-f11-copy");
+			isShow = false;
+		});
+		
+		$(".home").on("tap", function() {
+			var index = plus.webview.getWebviewById("index.html");
+			mui.fire(index,"init");
+			goPage(index.id);
+		});
+		$(".cart").on("tap", function() {
+			var id;
+			var thisId = plus.webview.currentWebview().id;
+			id = "../cart.html";
+			goPage(id,thisId,true);
+		});
+
+		$(".profile").on("tap", function() {
+			var profile = plus.webview.getWebviewById("profile/index.html");
+			mui.fire(profile,"init");
+			goPage(profile.id);
+		});
+		function back(){
+			var pre = plus.webview.getWebviewById(preId);
+			mui.fire(pre,"init");
+			mui.back();
+		}
+		function goPage(page, data,isNew) {
+			if(isNew == null)
+				isNew = false;
+			else
+				isNew = true;
+			mui.openWindow({
+				url: page,
+				id: page,
+				extras: {
+					data: data
+				},
+				createNew:isNew
+			});
+		}
+		var preId;
+		window.addEventListener("init",function(){
+			setCart();
+			if (mui.os.ios) {
+				plus.navigator.setStatusBarBackground("#fafafa");
+			}
+		});
+		window.addEventListener("init2",function(event){
+			setCart();
+			if (mui.os.ios) {
+				plus.navigator.setStatusBarBackground("#fafafa");
+			}
+			var data = event.detail.data;
+			var ob = JSON.parse(data);
+			preId = ob.thisId;
+			$("header").find("p").text("All orders").append("<i class='iconfont icon-f11-copy'></i>");
+			$("header").find("p").find("i").addClass("icon-f11-copy-copy").removeClass("icon-f11-copy");
+			isShow = false;
+			var sub = plus.webview.getWebviewById('list.html');
+			mui.fire(sub,"inits",{
+				type:ob.type
+			});
+		});
+		window.addEventListener("init3",function(event){
+			setCart();
+			if (mui.os.ios) {
+				plus.navigator.setStatusBarBackground("#fafafa");
+			}
+			var data = event.detail.type;
+			preId = event.detail.preId;
+			var sub = plus.webview.getWebviewById('list.html');
+			mui.fire(sub,"inits",{
+				type:data
+			});
+		});
+	
+		function plusReady() {
+			var data = plus.webview.currentWebview().data;
+			mui.init({
+				subpages: [{
+					url: 'list.html',
+					id: 'list.html',
+					styles: {
+						top: '44px', //mui标题栏默认高度为45px；
+						bottom: '44px', //默认为0px，可不定义；
+					},
+					extras: {
+						data: data
+					}
+				}]
+			});
+		}
+		document.addEventListener("plusready", plusReady, false);
+	</script>

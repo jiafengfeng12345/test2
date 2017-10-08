@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<title>博德高科 - 联系我们</title>
+	<script type="text/javascript" src="../js/jquery.min.js"></script>
+	<script src="js/rem.js"></script>
+	<link rel="stylesheet" type="text/css" href="../css/all.css">
+	<link rel="stylesheet" type="text/css" href="../css/base.css">
+	<link rel="stylesheet" type="text/css" href="../css/page.css">
+	<link rel="stylesheet" type="text/css" href="../css/loaders.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/loading.css">
+	<script type="text/javascript">
+		$(window).load(function() {
+			$(".loading").addClass("loader-chanage")
+			$(".loading").fadeOut(300)
+		})
+	</script>
+	<link rel="shortcut icon" href="favicon.ico" />
+</head>
+<!--<div class="loading">
+	<div class="loader">
+		<div class="loader-inner ball-pulse">
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+	</div>
+</div>-->
+<!--loading页结束-->
+
+<body>
+<div class="app-head clearfloat" id="header">
+	<a href="javascript:back()" class="fl box-s"><i class="iconfont icon-arrow-l fl"></i></a>
+	<p class="fl">Contact us</p>
+</div>
+
+<div class="about-detail clearfloat box-s" id="main">
+	<div class="ctent clearfloat box-s">
+	</div>
+</div>
+</body>
+</html>
+<script type="text/javascript" src="../js/hmt.js"></script>
+<script type="text/javascript" src="../js/base.js"></script>
+<script type="text/javascript" src="../js/rem.js"></script>
+<script type="text/javascript" src="../js/mui.min.js"></script>
+<script>
+	function back() {
+		mui.back();
+	}
+	$.ajax({
+		url: IP + "/oversea/contact.html",
+		type: "get",
+		dataType: "json",
+		success: function (data) {
+			$(".ctent").append(data.content);
+		}
+	});
+</script>

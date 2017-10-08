@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<title>博德高科 - 关于我们</title>
+	<script type="text/javascript" src="../js/jquery.min.js"></script>
+	<script src="../js/rem.js"></script>
+	<link rel="stylesheet" type="text/css" href="../css/all.css">
+	<link rel="stylesheet" type="text/css" href="../css/base.css">
+	<link rel="stylesheet" type="text/css" href="../css/page.css">
+	<link rel="stylesheet" type="text/css" href="../css/loaders.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/loading.css">
+	<script type="text/javascript">
+		$(window).load(function () {
+			$(".loading").addClass("loader-chanage");
+			$(".loading").fadeOut(300);
+		});
+	</script>
+	<link rel="shortcut icon" href="favicon.ico"/>
+	<style>
+		.about-detail{
+			padding-top: 44px;
+		}
+		.about-detail .ctent{
+			margin: 0;
+			padding: 0;
+		}
+		.ctent p{
+			margin: 0;
+			padding: 0;
+			margin-left: -20px;
+			font-size: 16px;
+		}
+	</style>
+</head>
+<body>
+<div class="app-head clearfloat" id="header">
+	<a href="javascript:mui.back()" class="fl box-s"><i class="iconfont icon-arrow-l fl"></i></a>
+	<p class="fl"></p>
+</div>
+
+<div class="about-detail">
+	<div class="ctent">
+	</div>
+</div>
+</body>
+<script type="text/javascript" src="../js/hmt.js"></script>
+<script type="text/javascript" src="../js/base.js"></script>
+<script type="text/javascript" src="../js/mui.min.js" ></script>
+</html>
+<script>
+	
+	function plusReady(){
+		if (mui.os.ios) {
+			plus.navigator.setStatusBarBackground("#fafafa");
+		}
+		var id = plus.webview.currentWebview().data;
+		$.ajax({
+			url: IP + "/oversea/helpDetail.html",
+			type: "get",
+			data:{"id":id},
+			dataType: "json",
+			success: function (data) {
+				$(".ctent").append(data.content);
+				$(".app-head.clearfloat").find("p").text(data.title);
+			},
+			error: function () {
+				console.log("error");
+			}
+		});
+	}
+	document.addEventListener("plusready",plusReady,false);
+</script>

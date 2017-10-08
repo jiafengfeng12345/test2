@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<title>博德高科 - 个人信息</title>
+		<link rel="stylesheet" type="text/css" href="../css/all.css" />
+		<link rel="stylesheet" type="text/css" href="../css/base.css" />
+		<link rel="stylesheet" type="text/css" href="../css/page.css" />
+		<link rel="stylesheet" type="text/css" href="../css/loaders.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/loading.css" />
+		<link rel="stylesheet" type="text/css" href="../css/select2.css">
+		<script type="text/javascript" src="../js/jquery.min.js"></script>
+		<script src="../js/rem.js"></script>
+		<script src="../js/jquery.form.js"></script>
+		<script src="../js/select2.js"></script>
+		<script src="../js/base.js"></script>
+		<script type="text/javascript">
+			$(window).load(function() {
+				$(".loading").addClass("loader-chanage");
+				$(".loading").fadeOut(300);
+			});
+		</script>
+		<style>
+			.submit {
+				display: block;
+				width: 120px;
+				height: 33px;
+				line-height: 33px;
+				font-size: 16px;
+				background-color: #A52A2A;
+				text-align: center;
+				border-radius: 7px;
+				color: white;
+				margin: 10px auto 15px;
+			}
+			
+			.box-s.clearfloat {
+				padding: 2% .4rem;
+			}
+			
+			.box-s.clearfloat>p.tit {
+				text-align: left;
+				border-bottom: 1px solid #f0f0f1;
+				line-height: 0.92rem;
+			}
+			
+			.land-ctent ul li .tit {
+				width: 30%;
+			}
+			
+			.pay-bottom ul li .xinxi {
+				width: 70%;
+				border-bottom: 1px solid #f0f0f1;
+			}
+			
+			select {
+				box-sizing: inherit;
+				border: 0px;
+				background-color: white;
+				direction: rtl;
+			}
+			
+			.red_span {
+				color: red;
+			}
+			
+			.land-ctent ul li {
+				border-bottom: none;
+			}
+		</style>
+		<link rel="shortcut icon" href="favicon.ico" />
+		<script type="text/javascript" src="../js/mui.min.js"></script>
+	</head>
+
+	<body>
+
+		<div class="app-head clearfloat" id="header">
+			<a href="javascript:back()" class="fl box-s"><i class="iconfont icon-arrow-l fl"></i></a>
+			<p class="fl">Company</p>
+		</div>
+		<div class="pay clearfloat" id="main" style="padding-top: 52px;">
+			<form class="land-ctent clearfloat pay-bottom" id="inputForm" action="user/update.html" method="post" returnUrl="company.html">
+				<ul style="width: 100%;overflow: hidden;">
+					<li class="box-s clearfloat">
+						<p class="tit fl">Name</p>
+						<input class="xinxi fr" value="" name="name" readonly>
+					</li>
+					<li class="box-s clearfloat">
+						<p class="tit fl">Abbreviation</p>
+						<input class="xinxi fr" value="" name="shortName" readonly>
+					</li>
+					<li class="box-s clearfloat">
+						<p class="tit fl">Contact</p>
+						<input class="xinxi fr" value="" name="contact" readonly>
+					</li>
+					<li class="box-s clearfloat">
+						<p class="tit fl">Tel</p>
+						<input class="xinxi fr" value="" name="phone" type="text" readonly>
+					</li>
+					<li class="box-s clearfloat">
+						<p class="tit fl">Mobile</p>
+						<input class="xinxi fr" value="" name="mphone" readonly>
+					</li>
+					<li class="box-s clearfloat" style="border-bottom: 1px solid #F0F0F1;">
+						<p class="tit fl" style="border-bottom: none;">Fax</p>
+						<input class="xinxi fr" style="border-bottom: none;" value="" name="fax" type="text" readonly>
+					</li>
+					<input type="hidden" name="id" value="">
+					<!--<li>
+                <a class="submit">保存</a>
+            </li>-->
+				</ul>
+			</form>
+		</div>
+		<script type="text/javascript" src="../js/hmt.js"></script>
+		<script type="text/javascript" src="../js/mui.min.js"></script>
+		<script>
+			function back() {
+				var pre = plus.webview.getWebviewById("profile/index.html");
+				mui.fire(pre, "init");
+				mui.back();
+			}
+			$.ajax({
+				url: IP + "/oversea/staff/staffInfo.html",
+				type: "post",
+				dataType: "json",
+				success: function(data) {
+					$("input[name=name]").val(data.user.name);
+					$("input[name=shortName]").val(data.user.shortName);
+					$("input[name=contact]").val(data.user.contact);
+					$("input[name=phone]").val(data.user.phone);
+					$("input[name=mphone]").val(data.user.mphone);
+					$("input[name=fax]").val(data.user.fax);
+					$("input[name=taxID]").val(data.user.taxID);
+					$("input[name=bankName]").val(data.user.bankName);
+					$("input[name=bankAccount]").val(data.user.bankAccount);
+					$("input[name=id]").val(data.user.id);
+					if(data.user.industry !== "") {
+						$("select[name=industry]").val(data.user.industry);
+					} else {
+						$("select[name=industry]").val("请选择您的行业");
+					}
+				},
+				error: function() {
+					console.log("error");
+				}
+
+			})
+			//    $("select").select2();
+			$inputForm = $("#inputForm");
+			$inputForm.submit(function() {
+				/* var mphone = $(this).find("input[name = mphone]").val();
+				 if(mphone.length != 11){
+				 alert("手机号必须为11位");
+				 return false;
+				 } */
+				var option = {
+					type: "post",
+					dataType: "json",
+					success: function(re) {
+						if(re.result == "success") {
+							alert("修改成功");
+						} else if(re.result == "error") {
+							alert("修改失败");
+						}
+					}
+				};
+				$(this).ajaxSubmit(option);
+				return false;
+			});
+
+			$inputForm.find(".submit").click(function() {
+				$inputForm.submit();
+			});
+
+			function plusReady() {
+				if(mui.os.ios) {
+					plus.navigator.setStatusBarBackground("#fafafa");
+				}
+			}
+			document.addEventListener("plusready", plusReady, false);
+		</script>
+	</body>
+
+</html>

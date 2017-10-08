@@ -1,0 +1,302 @@
+
+.typeselect a:link, a:visited {
+    color: #333;
+}
+
+.typeselect a {
+    text-decoration: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.typeselect i{
+    font-size: 0.5rem;
+}
+.typeselect button{
+    outline:none;
+}
+
+.typeselect .disablebtn{
+    background-color: #BBBBBB!important;
+}
+
+.typeselect .disablenum input{
+    border-color: #b4282b!important;
+}
+
+.typeselect .disablenum p{
+    color: #b4282b;
+    font-size: .5rem;
+    display: block!important;
+    margin-left: .3rem;
+}
+
+.typeselect .header{
+    position: fixed;
+    margin: 0;
+    padding: 0;
+    top: 0;
+    width: 100%;
+    z-index: 4;
+}
+.typeselect .header-main{
+    height: .65rem;
+    background-color: #fafafa;
+    position: relative;
+    padding: 0 .3rem .3rem .4rem;
+    border-bottom: 2px solid #eeeeee;
+}
+.typeselect .show-menu{
+    position: relative;
+    top:-.3rem;
+    display: flex;
+    justify-content: space-between;
+    line-height: 1.3rem;
+
+}
+.show-menu>div{
+    display: inline-block;
+}
+.typeselect .show-menu .show-menu-i{
+    width: .5rem;
+}
+.typeselect .show-menu-div{
+    line-height: 1.5rem;
+    font-size: .4rem;
+    padding-left: .3rem;
+}
+.typeselect .row-menu{
+    background-color: #fafafa;
+    text-align: center;
+    position: absolute;
+    top:.96rem;
+    left:0;
+    right:0;
+    z-index: 0;
+}
+.typeselect .row-menu .list{
+    display: inline-block;
+    list-style-type: none;
+    margin: 0 auto;
+    padding:0;
+}
+.typeselect .row-menu .list .item:not(:last-child){
+    display: inline-block;
+    margin-left: .6rem;
+    margin-right: .6rem;
+    font-size: 0.3rem;
+    float: left;
+}
+.typeselect .row-menu .list .item:last-child{
+    display: inline-block;
+    margin-left: .5rem;
+    margin-right: .7rem;
+    font-size: 0.3rem;
+    float: left;
+}
+.typeselect .row-menu .list .item i{
+    display: block;
+}
+.typeselect .row-menu .list .item span{
+    display: block;
+    font-weight:300;
+    font-size: .25rem;
+}
+
+.typeselect .contain{
+    padding: 1.5rem 0;
+
+}
+.typeselect .img{
+    /*
+    width: 2.5rem;
+    height:2.5rem;
+    
+     width: 2.98rem;
+    height: 2.98rem;
+    border: .01rem solid #f0f0f0;
+    */
+    position: absolute;
+    top: 25%;
+    left: 25%;
+    width: 50%;
+    height: 50%;
+}
+.typeselect .paramerselect{
+    padding: .2rem;
+}
+
+.typeselect .paramerselect .goodsinfo{
+	position: relative;
+    font-size: .3rem;
+    margin: .15rem;
+    height: 3rem;
+}
+
+.typeselect .goodsinfo .goodsinfo-left{
+	/*
+    width: 2.26667rem;
+    overflow: hidden;
+    border-radius: .04rem;
+    background-color: #f4f4f4;
+    float: left;
+    margin-right: -2.26667rem;
+    */
+    // display: inline-block;
+    position: relative;
+    width: 3rem;
+    height: 3rem;
+    background: #faf8fb;
+}
+
+.typeselect .goodsinfo .goodsinfo-right{
+	/*
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    margin-left: 3rem;
+    font-size: .3rem;
+    float: left;
+    margin-top: .5rem;
+    */
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    
+    position: absolute;
+    top: 0;
+    margin-left: 3rem;
+    padding-left: .4rem;
+    height: 3rem;
+    line-height: 1;
+    
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    -moz-align-items: center;
+    align-items: center;
+}
+
+.typeselect .goodsinfo-right .price{
+    font-size: .5rem;
+    margin-bottom: .2rem;
+    color: #333;
+}
+
+.typeselect .goodsinfo-right .selected{
+    font-size: .35rem;
+    color: #333;
+}
+
+.typeselect .tt{
+    font-size: .4rem;
+    padding:.15rem 0;
+}
+
+.typeselect .specification{
+    margin-top:.5rem;
+}
+
+.typeselect .con .tab{
+	/*
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    padding: .15rem .3rem;
+    font-size: .35rem;
+    line-height: .5rem;
+    margin-bottom: .21rem;
+    border: 1px solid #999;
+    color: #999;
+    height: .6rem;
+    width: 2rem;
+    margin-right: .4rem;
+    border-radius: 3px;
+    text-align: center;
+    */
+    
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    padding: .15rem .5rem;
+    font-size: .35rem;
+    line-height: .45rem;
+    margin-bottom: .21rem;
+    margin-right: .2333rem;
+    border: 1px solid #999;
+    color: #999;
+    border-radius: 3px;
+    text-align: center;
+}
+.typeselect .con{
+    padding-bottom: .2rem
+}
+.typeselect .con .tabactive{
+    border-color: #b4282d;
+    color: #b4282d;
+}
+
+.typeselect .detail p{
+    line-height: .8rem;
+}
+
+.typeselect .detail .number{
+    line-height: .8rem;
+}
+
+.typeselect .detail .number .set-num{
+    width: 1rem;
+    height: .45rem;
+    border: 1px solid #BBBBBB;
+    margin-right: .4rem;
+    font-size: .4rem;
+    padding: .2rem;
+}
+
+.typeselect .detail span{
+    font-size: .4rem;
+}
+
+.typeselect .foot{
+    background-color: #fff;
+    height: 1.3rem;
+    position: fixed;
+    bottom:0;
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    z-index:4;
+    outline: none;
+    border: 0;
+}
+.typeselect .back{
+    background-color: #fff;
+    font-size: .3rem;
+    text-align: center;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0;
+    border-right: 0;
+    border: 1px solid #c7c7c7;
+    border-right: 0;
+    color: #333;
+    display: inline-block;
+    padding-left: 1.5rem;
+}
+.typeselect .shopcar{
+    background-color: #b4282d;
+    font-size: .3rem;
+    text-align: center;
+    flex-grow: 4;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0;
+    border-right: 0;
+    color: #fff;
+    display: inline-block;
+    width: .5rem;
+    border-bottom: none;
+    outline: none;
+}

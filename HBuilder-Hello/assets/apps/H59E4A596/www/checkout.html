@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>博德高科 - 订单确认</title>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script src="js/rem.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/all.css"/>
+    <link rel="stylesheet" type="text/css" href="css/base.css"/>
+    <link rel="stylesheet" type="text/css" href="css/page.css"/>
+    <link rel="stylesheet" type="text/css" href="css/loaders.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/loading.css"/>
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/checkout.css"/>
+
+    <script type="text/javascript">
+        $(window).load(function () {
+            $(".loading").addClass("loader-chanage")
+            $(".loading").fadeOut(300)
+        })
+    </script>
+    <style>
+        .list-way .way.selected {
+            border-color: #b4282b;
+        }
+        input[name='clientPurchaseInOrderSn'],input[name='clientPurchaseInOrderDate'], input[name=memo],input[name=clientPurchaseInOrderDate2]{
+            width: 50%;
+            border: none;
+            border-bottom: 1px solid #bbb;
+        }
+        .invoice span {
+            display: block;
+            width: 70px;
+            height: 25px;
+            border: 1px solid #BBBBBB;
+            text-align: center;
+            line-height: 25px;
+            float: left;
+        }
+        .invoice .active {
+            border: 2px solid #b4282b;
+        }
+        .address {
+        	    height: 25px;
+		    outline: none;
+		    border-width: 0px;
+		    border-bottom: 1px solid #bbb;
+		    width: 80%;
+		    font-size: 0.35rem;
+        }
+        .checkout ul .li-header-2 {
+        		margin-bottom: 0px;
+        }
+    </style>
+    <link rel="shortcut icon" href="favicon.ico"/>
+</head>
+<!--loading页开始-->
+<div class="loading">
+    <div class="loader">
+        <div class="loader-inner ball-pulse">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+<!--loading页结束-->
+<body class="checkout">
+<div class="app-head clearfloat" id="header">
+    <a href="javascript:mui.back()" class="fl box-s"><i class="iconfont icon-arrow-l fl"></i></a>
+    <p class="fl" style="color: #b4282b">Pay online</p>
+</div>
+<ul>
+    <li class="checkItem">
+        <div class="li-header-2">
+            <div class="li-header-2-left">Shipping address</div>
+            
+        </div>
+        <div>
+       	 	<input type="text" class="address" />
+        </div>
+    </li>
+
+    <li class="checkItem">
+        <div class="li-header"> Pay </div>
+        <div class="list-way">
+			<div class="way selected" value="zq">Account period</div>
+			<div class="way" value="xk">Pay offline</div>
+        </div>
+    </li>
+
+    <li class="checkItem">
+        <div class="li-header"> Delivery list </div>
+        <div class="list-goods">
+            
+        </div>
+    </li>
+    <li class="checkItem">
+        <div class="li-header">
+	        Customer purchase information(Optional)
+        </div>
+        <div style="display: flex;margin-bottom: 0.5rem">
+            <lable style="width: 30%">Customer Purchase Order Number</lable><input type="text" name="clientPurchaseInOrderSn">
+        </div>
+         <div style="display: flex;margin-bottom: 0.5rem">
+             <lable style="width: 30%;">Custom Purchase Order Date</lable><input type="date" name="clientPurchaseInOrderDate" style="opacity: 0;position: absolute;">
+             <input type="text" name="clientPurchaseInOrderDate2" readonly>
+         </div>
+	     <div style="display: flex;">
+		     <lable style="width: 30%;">Order Notes</lable><input type="text" name="memo">
+	     </div>
+    </li>
+    <li class="checkItem">
+        <p class="count">
+			
+        </p>
+    </li>
+</ul>
+<div class="foot">
+    <div style="margin-left: 0.3rem">
+        Total :
+    </div>
+    <div class="total-price">
+        
+    </div>
+    <div class="go-pay">
+        <a class="create-order" style="font-size: 17px;">Settle</a>
+    </div>
+</div>
+<div class="alert"></div>
+<script type="text/javascript" src="js/checkout.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/mui.min.js" ></script>
+
+<script>
+	$("input[name=clientPurchaseInOrderDate2]").click(function(){
+		$("input[name=clientPurchaseInOrderDate]").focus();
+	});
+	$("input[name=clientPurchaseInOrderDate]").change(function(){
+		$("input[name=clientPurchaseInOrderDate2]").val($(this).val());
+	});
+	var total = 0;
+	var totalPrice = 0;
+	
+	function initCheckout() {
+		$.ajax({
+			type:"post",
+			url:IP + "/oversea/order/checkout.html",
+			async:true,
+			dataType:"json",
+			success:function(data) {
+				if (data.result === "success") {
+					var cartItems = data.cartItems;
+					var html = '';
+					for (var i=0; i<cartItems.length; i++) {
+						var item = cartItems[i];
+						total = total+1;
+						totalPrice = totalPrice+item.quantity*item.price;
+						var li = '<div class="goods">' + 
+				                    '<div class="img-warp">' +
+				                        '<img src="'+item.imgSrc+'" alt="图" class="img">' + 
+				                    '</div>' +
+				                    '<div class="goods-detail">' +
+				                        '<p class="name">' +
+				                            '<span>'+item.seriesName+'</span>' +
+				                        '</p>' +
+				                        '<p class="type">' +
+				                            '<span>线径</span><span>'+item.wireSizeName+'</span>' +
+				                        '</p>' +
+				                        '<p class="type">' +
+				                            '<span>轴型</span><span>'+item.axleLoadName+'</span>' +
+				                        '</p>' +
+				                        '<p class="type">' +
+				                            '<span>状态</span><span>'+item.statusName+'</span>' +
+				                        '</p>' +   
+				                    '</div>' +
+				                    '<div class="price-detail">' +
+				                        '<p class="price-detail-2">' +
+				                            '<span class="price">¥</span><span class="price">'+item.price+'</span>/kg' +
+				                            '<br />' +
+				                        '</p>' +
+				                    '</div>' +
+				                '</div>';
+                			html += li;
+					}
+					$(".list-goods").html(html);
+					html = '<span class="count-left">' +
+								'<span>'+total+'</span> quantity of products,total' +
+							'</span>' +
+				            '<span class="count-right">' +
+								'¥<span>'+totalPrice.toFixed(2)+'</span>' +
+							'</span>';
+					$(".count").html(html);
+					html = '<span>¥</span><span>' + totalPrice.toFixed(2) + '</span>';
+					$(".total-price").html(html);
+					
+					$(".address").val(data.fullAddress);
+				} else if(data.result === "error") {
+					$.showAlert($(".alert"),data.content);
+				}
+			},
+			error:function() {
+				$.showAlert($(".alert"),"网络错误");
+			}
+		});
+	}
+	initCheckout();
+	
+    $(".list-way").find(".way").click(function () {
+        $(this).addClass("selected").siblings().removeClass("selected");
+    });
+    
+    var $create = $(".create-order");
+    var create_flag = true;
+    $create.on("click", function () {       
+        var payMethod = $("div.way.selected").attr("value");
+        var clientPurchaseInOrderSn = $("input[name='clientPurchaseInOrderSn']").val();
+        var clientPurchaseInOrderDate = $("input[name='clientPurchaseInOrderDate']").val();        
+        var memo = $("input[name=memo]").val();
+        var address = $(".address").val();
+        
+        if (create_flag == false) {
+            return;
+        }
+        create_flag = false;
+        
+        if (payMethod === undefined || payMethod === null || $.trim(payMethod) === "") {
+        		$.showAlert($(".alert"),"Please select mode of payment");
+        		create_flag = true;
+        		return;
+        }
+        
+        if (address === undefined || address === null || $.trim(address) === "") {
+        		$.showAlert($(".alert"),"Please enter address");
+        		create_flag = true;
+        		return;
+        }
+        
+        $.ajax({
+            url: IP + "/oversea/order/create.html",
+            type: "post",
+            data: {
+                payMethod: payMethod,
+                clientPurchaseInOrderSn: clientPurchaseInOrderSn,
+                clientPurchaseInOrderDate:clientPurchaseInOrderDate,
+	            memo: memo,
+	            fullAddress:address
+            },
+            dataType: "JSON",
+            success: function (data) {
+                create_flag = true;
+                if (data.result === "success") {   
+                    mui.openWindow({
+                    		url: "completed.html",
+                    		id:"completed.html"
+                    });
+                } else if (data.result === "error") {
+                    alert("Failed to create order");
+                }
+            },
+            error: function (data) {
+                create_flag = true;
+            }
+        });
+    });
+</script>
+</body>
+</html>

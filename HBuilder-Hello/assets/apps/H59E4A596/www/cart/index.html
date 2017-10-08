@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" >  
+    <title>博德高科 - 购物车</title>
+    <script type="text/javascript"
+            src="js/jquery.min.js"></script>
+    <script src="js/rem.js"></script>
+    <link rel="stylesheet" type="text/css"
+          href="css/all.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="css/base.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="css/page.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="css/loaders.min.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="css/loading.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="css/simple-line-icons.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="css/font-awesome.min.css"/>
+    <link rel="shortcut icon" href="favicon.ico"/>
+    <style>
+        a:link, a:visited {
+            color: #333;
+        }
+
+        a {
+            text-decoration: none;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+
+        .empty {
+            background-color: #f4f4f4;
+            margin-top: 3.8rem;
+            text-align: center;
+            font-size: .7rem;
+            color: #999;
+        }
+
+        .error ~ .errormsg {
+            visibility: visible;
+        }
+
+        /*错误提示结束*/
+        .disablebtn {
+            background-color: #BBBBBB !important;
+        }
+
+        .cart-left {
+            position: absolute;
+            font-size: .5rem;
+            top: 50%;
+            left: 0.425rem;
+            -webkit-transform: translate(0, -50%);
+            -moz-transform: translate(0, -50%);
+            -ms-transform: translate(0, -50%);
+            -o-transform: translate(0, -50%);
+            transform: translate(0, -50%);
+        }
+
+        .cart-right {
+            width: 30.66% !important;
+        }
+
+        .cart-center {
+            margin-left: 1rem;
+        }
+
+        .relative {
+            position: relative;
+        }
+
+        .set-num {
+            width: 1.4rem;
+            height: .8rem;
+            border: 1px solid #bbb;
+            margin-left: .3rem;
+            padding: .1rem;
+            font-size: .5rem;
+            outline: none;
+            border: 0;
+        }
+
+        .cart-foot {
+            width: 100%;
+            background-color: #ffffff;
+            display: flex;
+            display: -webkit-flex;
+            position: fixed;
+            z-index: 1000;
+            bottom: 0rem;
+            height: 1.3rem;
+            justify-content: space-between;
+            font-size: .4rem;
+            align-items: center;
+            padding: 0 .2rem;
+
+        }
+
+        .cart-foot .do-order {
+            background-color: #b4282b;
+            height: 100%;
+            line-height: 1.3rem;
+            width: 30%;
+            text-align: center;
+        }
+
+        .cart-foot .foot-center {
+            width: 35%;
+            text-align: right;
+            color: #b4282b;
+            font-size: .5rem;
+        }
+
+        .cart-foot .foot-left {
+            width: 20%;
+            text-align: center;
+        }
+
+        .content .warp-list .total {
+            display: flex;
+            background-color: #ffffff;
+            border-bottom: 1px solid #BBBBBB;
+            font-size: .4rem;
+            justify-content: flex-end;
+            align-items: center;
+            padding: .2rem;
+        }
+
+        .content .warp-list:last-child .total {
+            border-bottom: none;
+        }
+
+        .content .delete-btn {
+            background-color: #fff;
+            border: 1px solid #999999;
+            padding: .2rem;
+            border-radius: 5px;
+            margin-right: .3rem;
+            margin-left: .3rem;
+        }
+
+        #main {
+            overflow-x: hidden;
+        }
+
+        .setnum {
+            display: flex;
+            flex-flow: row nowrap;
+            align-items: center;
+            width: 3.6rem;
+            right: .4rem;
+            position: relative;
+            margin-top: .5rem;
+            height: .6rem;
+        }
+
+        .setnum > div {
+            float: left;
+        }
+
+        .setnum .less {
+            background-color: #fff;
+            font-size: .4rem;
+            text-align: center;
+            flex-grow: 1;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0;
+            border: 1px solid #c7c7c7;
+            border-right: 0;
+            color: #333;
+            display: inline-block;
+            width: 1.2rem;
+            line-height: 0.6rem;
+            outline: none;
+            height: 100%;
+        }
+
+        .setnum .numberinput {
+            position: relative;
+            width: 1.2rem;
+            text-align: center;
+            font-size: .16rem;
+            line-height: .6rem;
+            border: 1px solid #c7c7c7;
+            flex-grow: 1;
+            height: 100%;
+        }
+
+        .setnum .numberinput input {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            text-align: center;
+            color: #333;
+            position: relative;
+            z-index: 1;
+            border: none;
+            font-size: .4rem;
+        }
+
+        .setnum .add {
+            background-color: #fff;
+            font-size: .4rem;
+            text-align: center;
+            flex-grow: 1;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0;
+            border: 1px solid #c7c7c7;
+            border-left: 0;
+            color: #333;
+            display: inline-block;
+            width: 1.2rem;
+            line-height: .6rem;
+            outline: none;
+            height: 100%;
+        }
+
+        .cart .schedule .content .list .right .box-num {
+            font-size: .5rem;
+            width: initial;
+            position: absolute;
+            right: .2rem;
+        }
+
+        .cart .schedule .content .list .right .box-num span {
+            font-size: .5rem;
+            margin: 0 .1rem;
+            color: #333;
+        }
+
+        .cart .schedule .content .list .right .box-num span:last-child {
+            color: #BBBBBB;
+        }
+
+        .icon-check {
+            color: #b4282b;
+        }
+
+        .delete {
+            position: absolute;
+            width: 11%;
+            font-size: .3rem;
+            height: 100%;
+            z-index: 100;
+            /* left: .1rem; */
+            right: -12%;
+            top: 0;
+            background-color: #b4282b;
+            color: #fff;
+            border: 1px solid #b4282b;
+        }
+
+        .schedule .content .list .tu {
+            position: relative;
+            height: 0;
+            padding-bottom: 26%;
+            background: #faf8fb;
+            float: none;
+            display: inline-block;
+        }
+
+        .schedule .content .list .tu img {
+            position: absolute;
+            top: 25%;
+            left: 25%;
+            height: 50%;
+            width: 50%;
+        }
+
+        .price {
+            margin: 0 !important;
+            font-size: 0.4rem !important;
+            color: #b4282b !important;
+            font-weight: bold !important;
+        }
+
+        .hint {
+            font-size: 0.2rem !important;
+            color: #b4282b !important;
+            width: 100% !important;
+        }
+        
+        #main{
+        	padding-bottom: 2.6rem !important;
+        }
+        
+        *{
+       	 font-family: PingFangSC-Light,helvetica,'Heiti SC';
+        }
+    </style>
+    <script type="text/javascript">
+        $(window).load(function () {
+            $(".loading").addClass("loader-chanage");
+            $(".loading").fadeOut(300);
+        });
+    </script>
+</head>
+<div class="loading">
+    <div class="loader">
+        <div class="loader-inner ball-pulse">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+<body class="cart">
+<div class="app-head clearfloat" id="header">
+    <a href="javascript:history.go(-1)" class="fl box-s"><i class="iconfont icon-arrow-l fl"></i></a>
+    <a style="visibility: hidden; width: 20%" href="" class="fl box-s"><i
+            class="iconfont icon-arrow-l fl"></i></a>
+    <p class="fl" style="width: 40%">购物车</p>
+    <span class="fr box-s edit-cart complete"
+          style="text-align: right; width: 20%; font-size: .4rem; padding-right: .3rem; color: #7f7f7f;">编辑</span>
+</div>
+<c:set var="checked" value="0"></c:set>
+<div class="rent clearfloat" id="main">
+    <c:forEach items="${cart.cartItems}" var="item">
+        <div class="schedule clearfloat collection">
+            <div class="content clearfloat box-s">
+                <div class="warp-list">
+                    <div class="list clearfloat fl box-s relative"
+                         data-id="${item.id}" style="padding: 4% 2%">
+                        <c:choose>
+                            <c:when test="${!item.isCheck}">
+                                <i class="iconfont-1 icon-yuan cart-left check"></i>
+                            </c:when>
+                            <c:otherwise>
+                                <c:set var="checked" value="1"></c:set>
+                                <i class="icon-check cart-left check"></i>
+                            </c:otherwise>
+                        </c:choose>
+                        <button class="delete" data-id="${item.id}">删除</button>
+                        <div class="tu clearfloat cart-center">
+                            <img src="${item.product.series.imgSrc}"/>
+                        </div>
+                        <div class="right clearfloat cart-right quantity"
+                             style="margin-top: -0.3rem;">
+                            <div class="tit clearfloat">
+                                <div class="setnum">
+                                    <button class="less">-</button>
+                                    <div class="numberinput">
+                                        <input type="number" value="${item.quantity}" class="number"
+                                        <c:choose>
+                                               <c:when test="${fn:toUpperCase(item.product.axleLoad.name)=='P3'}">data-pack="18"</c:when>
+                                               <c:when test="${fn:toUpperCase(item.product.axleLoad.name)=='DIN125'}">data-pack="21"</c:when>
+                                               <c:when test="${fn:toUpperCase(item.product.axleLoad.name)=='DIN160'||fn:toUpperCase(item.product.axleLoad.name)=='DIN200'}">data-pack="16"</c:when>
+                                               <c:when test="${fn:toUpperCase(item.product.axleLoad.name)=='DIN250'}">data-pack="25"</c:when>
+                                               <c:otherwise>data-pack="20"</c:otherwise>
+                                        </c:choose>
+                                               pattern="[0-9]*">
+                                    </div>
+                                    <button class="add">+</button>
+                                </div>
+                                <p class="hint"></p>
+                                <p class="box-num" style="font-size: 0.3rem">
+                                    单位:KG <c:choose>
+                                    <c:when test="${fn:toUpperCase(item.product.axleLoad.name)=='P3'}">18</c:when>
+                                    <c:when test="${fn:toUpperCase(item.product.axleLoad.name)=='DIN125'}">21</c:when>
+                                    <c:when test="${fn:toUpperCase(item.product.axleLoad.name)=='DIN160'||fn:toUpperCase(item.product.axleLoad.name)=='DIN200'}">16</c:when>
+                                    <c:when test="${fn:toUpperCase(item.product.axleLoad.name)=='DIN250'}">25</c:when>
+                                    <c:otherwise>20</c:otherwise>
+                                </c:choose>kg/箱 <br>请输入单箱整数倍
+                                </p>
+                            </div>
+                        </div>
+                        <div class="right clearfloat cart-right">
+                            <div class="tit clearfloat">
+                                <p class="fl">${item.product.series.name}</p>
+                            </div>
+                            <p class="recom-jianjie">线径: ${item.product.wireSize.name}</p>
+                            <p class="recom-jianjie">轴重: ${item.product.axleLoad.name}</p>
+                            <div class="recom-bottom clearfloat">
+									<span style="font-size: 0.4rem; color: #b4282b; font-weight: bold; margin-right: 0.2rem">
+										<span style="font-size: 0.4rem; color: #b4282b; font-weight: bold; margin-right: .1rem">￥</span><span
+                                            class="price">${item.price}</span>
+									</span>
+                                <span style="font-size: 0.4rem; color: #b4282b; font-weight: bold;margin-right: 0;">/ Kg</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </c:forEach>
+    <c:if test="${fn:length(cart.cartItems)==0}">
+        <div class="empty" onclick="location.href='index.html#products'">
+            <div>
+                <i class="fa fa-shopping-basket" style="font-size: 2.2rem"></i>
+            </div>
+            <p style="margin-top: .5rem">购物车为空快去添加点什么吧</p>
+        </div>
+    </c:if>
+</div>
+<div class="cart-foot">
+    <div class="foot-left">
+        <i class="iconfont-1 icon-yuan checkAll" style="margin-right: .1rem"></i>
+        <span>已选</span>(<span>0</span>)
+    </div>
+    <div class="foot-center">
+        <span style="display: inline-block">¥</span><span
+            style="display: inline-block; width: 2.5rem; text-align: left">1999.00</span>
+    </div>
+    <c:if test="${checked==0}">
+        <div class="do-order disablebtn">
+            <a
+                    href="${pageContext.request.contextPath}/mobile/order/checkout.html"
+                    style="color: #f4f4f4">下单</a>
+        </div>
+    </c:if>
+    <c:if test="${checked==1}">
+        <div class="do-order">
+            <a
+                    href="${pageContext.request.contextPath}/mobile/order/checkout.html"
+                    style="color: #f4f4f4">下单</a>
+        </div>
+    </c:if>
+
+</div>
+<div class="alert">商品添加成功</div>
+</body>
+<script type="text/javascript" src="../js/hmt.js"></script>
+<script type="text/javascript" src="../js/calc.js"></script>
+<script type="text/javascript" src="../js/base.js"></script>
+<script>
+    var $checkAll = $(".checkAll");
+    var $order = $(".do-order");
+    $order.click(function (data) {
+        var $number = $(".numberinput .number");
+        var flag = true;
+        $.each($number, function (index, data) {
+            var num = parseInt($(data).val());
+            var pack = parseInt($(data).attr("data-pack"));
+            var i = $(data).parents(".list").first().find("i");
+            if ($(i).hasClass("icon-check")) {
+                if (num % pack != 0) {
+                    flag = false;
+                }
+            }
+
+        })
+        if (!flag) {
+            $.showAlert($(".alert"), "请输入单箱数量的整数倍");
+            return false;
+        }
+        if (!btnStatus) {
+            return false;
+        }
+
+    })
+    var initVal = 0;
+    $(".check").on("click", function () {
+        var id = $(this).parent().attr("data-id");
+        var quantity = $(this).parent().find(".numberinput input").val();
+        var isChecked = $(this).hasClass("icon-yuan");
+        var that = $(this);
+        $.ajax({
+            "url": "${pageContext.request.contextPath}/mobile/cart/edit.html",
+            "type": "post",
+            "data": {
+                id: id,
+                "quantity": quantity,
+                "isChecked": isChecked
+            },
+            "dataType": "JSON",
+            "success": function (data) {
+                var message = data.message;
+                if (message.result == "success") {
+                    if (isChecked) {
+                        itemCheck($(that));
+                        if (isAllChecked()) {
+                            itemCheck($checkAll);
+                        }
+                        $order.removeClass("disablebtn");
+                        btnStatus = true;
+                    } else {
+                        $(that).removeClass("icon-check").addClass("iconfont-1").addClass("icon-yuan");
+                        itemUncheck($(that));
+                        itemUncheck($checkAll);
+                    }
+                    var $checked = $(".icon-check");
+                    if ($checked.length == 0) {
+                        $order.addClass("disablebtn");
+                        btnStatus = false;
+                    }
+                    showNum();
+                    showPrice();
+                }
+            }
+        })
+    });
+
+    $checkAll.on("click", function () {
+        var that = $(this);
+        var isAllchecked = $(this).hasClass("icon-check");
+        $.ajax({
+            "url": "${pageContext.request.contextPath}/mobile/cart/selectAll.html",
+            "type": "GET",
+            "data": {
+                "isChecked": !isAllchecked
+            },
+            "dataType": "JSON",
+            "success": function (data) {
+                var message = data.message;
+                if (message.result == "success") {
+                    if (!isAllchecked) {
+                        var $uncheck = $(".icon-yuan");
+                        itemCheck($uncheck);
+                        showNum();
+                        showPrice();
+                        $order.removeClass("disablebtn");
+                        btnStatus = true;
+                    } else {
+                        var $checked = $(".icon-check");
+                        itemUncheck($checked);
+                        showNum();
+                        showPrice();
+                        $order.addClass("disablebtn");
+                        btnStatus = false;
+                    }
+                }
+            }
+        })
+    });
+
+    $(".numberinput .number").focus(function () {
+        initVal = $(this).val();
+    });
+
+    $(".numberinput .number").blur(function () {
+        var id = $(this).parents(".list").attr("data-id");
+        var quantity = $(this).val();
+        var that = $(this);
+        if ($(this).val() == initVal) {
+            return false;
+        }
+        var number = parseInt(quantity);
+        var pack = $(this).attr("data-pack");
+        var $hint = $(this).parent().parent().next();
+        if (number % pack != 0) {
+            var min = quantity - quantity % pack;
+            var max = min + pack;
+            var str = min + "kg=" + min / pack + "箱<br>" + max + "kg=" + max / pack + "箱";
+            $hint.html(str);
+            $hint.show();
+        } else {
+            $hint.hide();
+        }
+
+        $.ajax({
+            "url": "${pageContext.request.contextPath}/mobile/cart/edit.html",
+            "type": "POST",
+            "data": {
+                id: id,
+                "quantity": quantity,
+                "isChecked": true
+            },
+            "dataType": "JSON",
+            "success": function (data) {
+                var message = data.message;
+                if (message.result == "success") {
+                    showPrice();
+                }
+            }
+        })
+    });
+
+    $(".less").on("click", function () {
+        var id = $(this).parents(".list").attr("data-id");
+        var $number = $(this).next().find("input");
+        var quantity = parseInt($number.val());
+        var $hint = $(this).parent().next();
+        var pack = parseInt($(this).next().find("input").attr("data-pack"));
+        if (quantity == 1) {
+            return false;
+        }
+        quantity = quantity - 1;
+        if (quantity % pack != 0) {
+            var min = quantity - quantity % pack;
+            var max = min + pack;
+            var str = min + "kg=" + min / pack + "箱<br>" + max + "kg=" + max / pack + "箱";
+            $hint.html(str);
+            $hint.show();
+        } else {
+            $hint.hide();
+        }
+        $.ajax({
+            "url": "${pageContext.request.contextPath}/mobile/cart/edit.html",
+            "type": "POST",
+            "data": {
+                id: id,
+                "quantity": quantity,
+                "isChecked": isCheckedFun($(this))
+            },
+            "dataType": "JSON",
+            "success": function (data) {
+                var message = data.message;
+                if (message.result == "success") {
+                    $number.val(quantity);
+                    showPrice();
+                }
+            }
+        });
+    })
+
+    $(".add").on("click", function () {
+        var id = $(this).parents(".list").attr("data-id");
+        var $number = $(this).prev().find("input");
+        var $hint = $(this).parent().next();
+        var quantity = parseInt($number.val());
+        quantity = quantity + 1;
+        var pack = parseInt($(this).prev().find("input").attr("data-pack"));
+        if (quantity % pack != 0) {
+            var min = quantity - quantity % pack;
+            var max = min + pack;
+            var str = min + "kg=" + min / pack + "箱<br>" + max + "kg=" + max / pack + "箱";
+            $hint.html(str);
+            $hint.show();
+        } else {
+            $hint.hide();
+        }
+
+        $.ajax({
+            "url": "${pageContext.request.contextPath}/mobile/cart/edit.html",
+            "type": "POST",
+            "data": {
+                id: id,
+                "quantity": quantity,
+                "isChecked": isCheckedFun($(this))
+            },
+            "dataType": "JSON",
+            "success": function (data) {
+                var message = data.message;
+                if (message.result == "success") {
+                    $number.val(quantity);
+                    showPrice();
+                }
+            }
+        });
+    })
+
+    $(".edit-cart").on("click", function () {
+        var $delete = $(".delete");
+        if ($(this).hasClass("complete")) {
+            // $delete.animate({left: "0"}, 400);
+            $(".list").animate({
+                right: "12%"
+            }, 400);
+            $(this).html("完成").removeClass("complete");
+        } else {
+            // $delete.animate({left:"-12%"},400);
+            $(".list").animate({
+                right: "0"
+            }, 400);
+            $(this).html("编辑").addClass("complete");
+        }
+    })
+
+    $(".delete").on("click", function () {
+        var id = $(this).attr("data-id");
+        var $parent = $(this).closest(".schedule");
+        $.ajax({
+            url: "${pageContext.request.contextPath}/mobile/cart/delete.html",
+            type: "GET",
+            data: {
+                "id": id
+            },
+            dataType: "JSON",
+            success: function (data) {
+                var message = data.message;
+                if (message.result == "success") {
+                    $parent.fadeOut();
+                    $parent.remove();
+                    showNum();
+                    showPrice();
+                } else {
+                    $.showAlert($(".alert"), "会话失效,请重新登录");
+                }
+            }
+        })
+    })
+
+    function itemCheck(e) {
+        $(e).removeClass("icon-yuan").removeClass("iconfont-1").addClass(
+            "icon-check");
+    }
+
+    function itemUncheck(e) {
+        $(e).removeClass("icon-check").addClass("iconfont-1").addClass(
+            "icon-yuan");
+    }
+
+    function showNum() {
+        var number = $(".content .icon-check").length;
+        $checkAll.siblings("span").eq(1).text(number);
+    }
+
+    function showPrice() {
+        $check = $(".content .icon-check");
+        var totalAmount = 0;
+        $check.each(function (index, data) {
+            var quantity = $(data).siblings(".quantity").find(".number").val();
+            var price = $(data).parent().find(".price").text();
+            totalAmount = cAdd(totalAmount, cMul(quantity, price));
+        })
+        $(".foot-center").find("span").eq(1).text(totalAmount.toFixed(2));
+    }
+
+    function isAllChecked() {
+        var $goods = $(".schedule");
+        var $checked = $(".content .icon-check");
+        return $goods.length == 0 ? false
+            : $goods.length == $checked.length;
+    };
+
+    function isCheckedFun(e) {
+        return $(e).parents(".right").siblings("i").hasClass("icon-check");
+    };
+
+    $(window).load(function () {
+        showNum();
+        showPrice();
+        var $checkAll = $(".checkAll");
+        if (isAllChecked()) {
+            itemCheck($checkAll);
+        }
+    })
+</script>
+</html>

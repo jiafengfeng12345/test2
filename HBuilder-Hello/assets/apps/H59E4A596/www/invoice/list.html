@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<meta content="telephone=no" name="format-detection" />
+	<title>账单地址列表</title>
+	<script type="text/javascript" src="../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/rem.js"></script>
+	<link rel="stylesheet" href="../css/iconfont.css">
+	<link rel="stylesheet" type="text/css" href="../css/all.css" />
+	<link rel="stylesheet" type="text/css" href="../css/base.css" />
+	<link rel="stylesheet" type="text/css" href="../css/page.css" />
+	<link rel="stylesheet" type="text/css" href="../css/loaders.min.css" />
+	<link rel="stylesheet" type="text/css" href="../css/loading.css" />
+
+
+
+	<script type="text/javascript" src="../js/common.js"></script>
+
+	<script type="text/javascript">
+		$(window).load(function() {
+			$(".loading").addClass("loader-chanage");
+			$(".loading").fadeOut(300);
+		})
+	</script>
+
+	<style>
+		.addrItem{
+			margin-bottom: 3%;
+			padding: .09rem .36rem .28rem .36rem;
+			background: #fff;
+		}
+
+		.addrItem p{
+			padding: .1rem;
+		}
+
+		.addrItem .name{
+			font-size: .4rem;
+			margin-right: .05rem;
+			color: #333;
+			font-weight: bolder;
+		}
+
+		.addrItem .phone{
+			font-size: .36rem;
+			color: #444;
+		}
+
+		.addrItem .addr{
+			font-size: .36rem;
+			color: #888;
+		}
+
+		.addrItem .btnGroup{
+			margin: 0;
+			height: .75rem;
+			line-height: .75rem;
+			text-align: right;
+			border-top: 1px solid #dfdfdf;
+		}
+
+		.addrItem .btnGroup a{
+			margin: 0 .36rem;
+			font-size: .39rem;
+			color: #333;
+			vertical-align: middle;
+		}
+
+	</style>
+	
+</head>
+<div class="loading">
+	<div class="loader">
+		<div class="loader-inner ball-pulse">
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+	</div>
+</div>
+<body>
+
+<div class="app-head clearfloat" id="header">
+	<a href="javascript:history.go(-1)" class="fl box-s"><i class="iconfont icon-arrow-l fl"></i></a>
+	<p class="fl">账单地址列表</p>
+</div>
+<div class="about clefloat" id="main">
+	
+	<div class="addrItem">
+		<p>
+			<span class="name">${item.name}</span> <span class="phone">${item.phone}</span>
+		</p>
+		<p class="addr">${item.areaName} ${item.address}</p>
+		<p class="addr">${item.taiTou} ${item.taxpayerId}</p>
+		<p class="btnGroup">
+			<a href="javascript:mobile_invoice_list_editAddr('${item.id}')">
+				<i class="iconfont icon-bianji1"></i>&nbsp;编辑
+			</a>
+			<a href="javascript:mobile_invoice_list_deleteConfirm('${item.id}')">
+				<i class="iconfont icon-shanchu8"></i>&nbsp;删除
+			</a>
+		</p>
+	</div>
+	
+</div>
+<div class="footer-look clearfloat" id="footer">
+	<a href="javascript:mobile_invoice_list_addAddr()" style="background: #A52A2A;" >新增地址</a>
+</div>
+<script type="text/javascript" src="../js/base.js"></script>
+<script>
+	var urlDatas = UrlTool.getData(document.URL) || {};
+	urlDatas.returnUrl = "list.html";
+
+	function mobile_invoice_list_addAddr(){
+		var url = "add.html";
+		location.href = UrlTool.setData(url, urlDatas);
+	}
+
+	function mobile_invoice_list_editAddr(id) {
+		var url = "edit.html?id=" + id;
+		location.href = UrlTool.setData(url, urlDatas);
+	}
+
+	function mobile_invoice_list_deleteConfirm(id) {
+		var re = confirm("确认删除这条地址吗 ?");
+		if (re) {
+			$.ajax({
+				url : "delete.html",
+				type : "post",
+				data : {
+					id : id
+				},
+				dataType : "json",
+				success : function(re) {
+					if (re.result === "error") {
+						alert(re.content);
+					} else {
+						location.replace(location.href);
+					}
+				}
+			});
+		}
+	}
+
+	<c:if test="${fn:length(invoices) == 0}">
+		window.onload = function(){
+			var tmp = setTimeout(function(){
+				alert("还没有地址，去新建一个吧！");
+			}, 600);
+		};
+	</c:if>
+</script>
+<script type="text/javascript" src="../js/hmt.js" ></script>
+</body>
+</html>

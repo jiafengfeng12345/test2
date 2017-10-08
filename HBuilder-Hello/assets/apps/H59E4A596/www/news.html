@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<script src="js/jquery.min.js"></script>
+		<script src="js/base.js"></script>
+		<script src="js/rem.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/loaders.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/loading.css" />
+		<link rel="stylesheet" type="text/css" href="css/base.css" />
+		<link rel="stylesheet" type="text/css" href="css/page.css" />
+		<script type="text/javascript">
+			$(window).load(function() {
+				$(".loading").addClass("loader-chanage")
+				$(".loading").fadeOut(300)
+			})
+		</script>
+		<style>
+			li {
+				height: 110px !important;
+			}
+			img.newsImg {
+				width: 90px !important;
+				height: 90px !important;
+				max-width: 90px !important;
+			}
+			p.newsTitle {
+				font-size: 18px;
+				line-height: 25px;
+				white-space: normal;
+			    color: #1d1d16;
+			}
+			span.newsAuthor {
+				position: absolute;
+				bottom: 10px;
+				color: #8c8c8c;
+				font-size: 15px;
+				/*font-weight: 300;*/
+			}
+			span.newsDate {
+				position: absolute;
+				bottom: 10px;
+				right: 25px;
+				color: #8c8c8c;
+				font-size: 15px;
+				/*font-weight: 300;*/
+			}
+			.mui-content>.mui-table-view:first-child  {
+				margin-top: 0px;
+			}
+		</style>
+	</head>
+	<div class="loading">
+		<div class="loader">
+			<div class="loader-inner ball-pulse">
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
+		</div>
+	</div>	
+	<body>
+		<!--<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">新闻</h1>
+		</header>-->
+		<div class="app-head clearfloat" id="header">
+			<a href="javascript:back()" class="fl box-s"><i class="iconfont icon-arrow-l fl"></i></a>
+			<a style="visibility: hidden; width: 20%" href="" class="fl box-s"><i class="iconfont icon-arrow-l fl"></i></a>
+			<p class="fl" style="width: 40%">Currency</p>
+		</div>
+		<div class="mui-content" style="padding-top: 56px;">
+	    		<ul class="mui-table-view">
+	        	    <!--<li class="mui-table-view-cell mui-media">
+	        	        <a href="newsDetail.html">
+	        	            <img class="mui-media-object mui-pull-left newsImg" src="http://n.sinaimg.cn/news/ea9e6ed4/20170905/XinShouJiaoDianTu--JiaoXing.jpg">
+	        	            <div class="mui-media-body">
+	        	            		<p class="newsTitle">注意！！！宁波要挂台风了,请做好预防准备！</p>
+	        	                <span class="newsAuthor">管理员</span> 
+	        	                <span class="newsDate">2017-08-08</span>
+	        	             
+	        	            </div>
+	        	        </a>
+	        	    </li>-->
+	        	</ul>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			if (mui.os.ios) {
+				plus.navigator.setStatusBarBackground("#fafafa");
+			}
+//			var old_back = mui.back;
+			function back(){
+			  	var id = plus.webview.getWebviewById('index.html');
+				mui.fire(id,'init');
+				mui.back();
+//			    	old_back();
+			}
+			mui.init()
+			$.ajax({
+				type:"post",
+				url:IP + "/oversea/news/list.html",
+				async:true,
+				dataType:"json",
+				success:function(data){
+					if (data != null) {
+						var ul = '';
+						for (var i = 0; i < data.length; i++) {
+							var news = data[i];
+							var li = '<li class="mui-table-view-cell mui-media">' +
+						        	        '<a href="newsDetail.html?id=' + news.id +'">' + 
+						        	            '<img class="mui-media-object mui-pull-left newsImg" src="' + news.imgSrc + '">' +
+						        	            '<div class="mui-media-body">' +
+						        	            		'<p class="newsTitle">'+ news.title + '</p>' +
+						        	                '<span class="newsAuthor">' + news.author + '</span>' +
+						        	                '<span class="newsDate">' + news.publishDate + '</span>' + 
+						        	            '</div>' +
+						        	        '</a>' +
+						        	    '</li>';
+						    ul += li;
+						}
+						
+						$("ul").html(ul);
+					}
+				}
+			});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<title>博德高科 - 登录</title>
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script src="js/rem.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/all.css" />
+		<link rel="stylesheet" type="text/css" href="css/base.css" />
+		<link rel="stylesheet" type="text/css" href="css/page.css" />
+		<link rel="stylesheet" type="text/css" href="css/loaders.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/loading.css" />
+		<script type="text/javascript">
+			$(window).load(function() {
+				$(".loading").addClass("loader-chanage")
+				$(".loading").fadeOut(300)
+			})
+		</script>
+		<link rel="shortcut icon" href="favicon.ico" />
+	</head>
+
+	<body>
+		<div class="app-head clearfloat" id="header">
+			<!--<a href="javascript:history.go(-1)" class="fl box-s"><i class="iconfont icon-arrow-l fl"></i></a>-->
+			<p class="fl" style="width: 100%;">Sign In</p>
+		</div>
+
+		<div class="sign clearfloat" id="main">
+			<ul>
+				<li class="clearfloat">
+					<i class="iconfont icon-user fl"></i>
+					<input type="text" value="" id="username" name="username" placeholder="Email address or MemberID" class="fl phone" />
+				</li>
+				<li class="clearfloat">
+					<i class="iconfont icon-lock fl"></i>
+					<input type="password" value="" id="password" name="password" placeholder="Enter your password" class="fl phone" />
+				</li>
+			</ul>
+			<a href="javascript:void(0)" class="pay-btn clearfloat login">
+				Sign in
+			</a>
+			<div class="bottom clearfloat">
+				<!--<a href="register.html" class="fl">立即注册</a>-->
+				<a href="forget.html" class="fl">Forget password?</a>
+			</div>
+		</div>
+		<div class="alert"></div>
+	</body>
+	<script type="text/javascript" src="js/hmt.js"></script>
+	<script type="text/javascript" src="js/base.js"></script>
+	<script type="text/javascript" src="js/mui.min.js"></script>
+	<script>
+		var $username = $("#username");
+		var $password = $("#password");
+		$(".login").click(function() {
+//			console.log(IP + "/oversea/staff/login.html");
+			plus.nativeUI.showWaiting();
+			$.ajax({
+				type: 'POST',
+				url: IP + "/oversea/staff/login.html",
+				data: {
+					"username": $username.val(),
+					"password": $password.val()
+				},
+				dataType:"json",
+				success: function(result) {
+					if(result.result != "error"){
+						plus.storage.setItem("username",$username.val());
+						plus.storage.setItem("password",$password.val());
+						preload("index.html");
+						//preload("cart.html");
+						preload("order/head.html","all");
+						preload("profile/index.html");
+//						plus.storage.setItem("imgSrc","");
+						setTimeout(function(){
+							plus.nativeUI.closeWaiting();
+							goPage("index.html");
+						},2000);
+						
+					}else{
+						$.showAlert($(".alert"),result.content);
+						plus.nativeUI.closeWaiting();
+					}
+				},
+				error:function() {
+					$.showAlert($(".alert"),"Network request error");
+					plus.nativeUI.closeWaiting();
+				}
+			});
+		});
+		function plusReady(){
+			if (mui.os.ios) {
+				plus.navigator.setStatusBarBackground("#fafafa");
+			}
+			var username = plus.storage.getItem("username");
+			var password = plus.storage.getItem("password");
+			if(username != null && username != ""  && password != null && password != ""){
+				$("#username").val(username);
+				$("#password").val(password);
+//				$(".login").click();
+			}
+		}
+		function goPage(page){
+			mui.openWindow({
+				url:page,
+				id:page
+			});
+		}
+		function preload(page,data){
+			mui.preload({
+				url:page,
+				id:page,
+				extras:{
+					data:data
+				}
+			});
+		}
+		document.addEventListener("plusready",plusReady,false);
+	</script>
+
+</html>

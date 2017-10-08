@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<title>博德高科 - 系统设置</title>
+		<script type="text/javascript" src="../js/jquery.min.js"></script>
+		<script src="../js/rem.js"></script>
+		<link rel="stylesheet" type="text/css" href="../css/all.css" />
+		<link rel="stylesheet" type="text/css" href="../css/base.css" />
+		<link rel="stylesheet" type="text/css" href="../css/page.css" />
+		<link rel="stylesheet" type="text/css" href="../css/loaders.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/loading.css" />
+		
+		<script type="text/javascript">
+			$(window).load(function() {
+				$(".loading").addClass("loader-chanage")
+				$(".loading").fadeOut(300)
+			})
+		</script>
+		<style>
+			.logoutx {
+				text-algin: center;
+				font-size: .4rem;
+				line-height: .7rem;
+				color: #333333;
+				margin-top: 3%;
+				padding: 3%;
+				background-color: #fff;
+				display: block;
+				width: 100%;
+				line-height: .6rem;
+				height: .6rem;
+			}
+		</style>
+		<link rel="shortcut icon" href="favicon.ico" />
+	</head>
+
+	<body>
+		<div class="app-head clearfloat" id="header">
+			<a href="javascript:back()" class="fl box-s"><i class="iconfont icon-arrow-l fl"></i></a>
+			<p class="fl">Setting</p>
+		</div>
+
+		<div class="about clefloat" id="main" style="width: 100%;overflow: hidden;">
+			<div class="p-list p-listwo clearfloat box-s">
+				<a class="clearfloat suggest"> <span class="fl">Feedback</span>
+					<i class="iconfont icon-arrowright fr you"></i>
+				</a>
+			</div>
+			<div class="p-list p-listhree clearfloat box-s">
+				<a class="clearfloat aboutUs"> <span class="fl">About us</span>
+					<i class="iconfont icon-arrowright fr you"></i>
+				</a>
+			</div>
+			<div class="p-list p-listhree clearfloat box-s">
+				<a class="clearfloat contact"> <span class="fl">Contact us</span>
+					<i class="iconfont icon-arrowright fr you"></i>
+				</a>
+			</div>
+			<div class="p-list p-listhree clearfloat box-s">
+				<a class="clearfloat passwordEdit"> <span class="fl">Reset password</span>
+					<i class="iconfont icon-arrowright fr you"></i>
+				</a>
+			</div>
+			<div class="logoutx">
+				<a class="clearfloat" href="" style="color:#000;"><span class="fl">Log out</span></a>
+				<i class="iconfont icon-arrowright fr you"></i>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../js/hmt.js"></script>
+	<script type="text/javascript" src="../js/mui.min.js"></script>
+	<script>
+		$(".aboutUs").on("tap", function() {
+			goPage("about.html");
+		});
+		$(".suggest").on("tap", function() {
+			goPage("suggest.html");
+		});
+		$(".contact").on("tap", function() {
+			goPage("contact.html");
+		});
+		$(".passwordEdit").on("tap", function() {
+			goPage("passwordEdit.html");
+		});
+
+		function back() {
+			var pre = plus.webview.getWebviewById("profile/index.html");
+			
+			mui.fire(pre, "init");
+			mui.back();
+		}
+
+		function addCookie(name, value, options) {
+			if(arguments.length > 1 && name != null) {
+				if(options == null) {
+					options = {};
+				}
+				if(value == null) {
+					options.expires = -1;
+				}
+				if(typeof options.expires == "number") {
+					var time = options.expires;
+					var expires = options.expires = new Date();
+					expires.setTime(expires.getTime() + time * 1000);
+				}
+				if(options.path == null) {
+					options.path = "/";
+				}
+				if(options.domain == null) {
+					options.domain = "";
+				}
+				document.cookie = encodeURIComponent(String(name)) +
+					"=" +
+					encodeURIComponent(String(value)) +
+					(options.expires != null ? "; expires=" +
+						options.expires.toUTCString() : "") +
+					(options.path != "" ? "; path=" + options.path : "") +
+					(options.domain != "" ? "; domain=" + options.domain : "") +
+					(options.secure != null ? "; secure" : "");
+			}
+		}
+		$('div.logoutx').click(function(event) {
+			event.preventDefault();
+			addCookie("password", '', {
+				expires: 0
+			});
+			addCookie("username", '', {
+				expires: 0
+			});
+			addCookie("staffId", '', {
+				expires: 0
+			});
+			plus.storage.removeItem("username");
+			plus.storage.removeItem("password");
+			goPage("../login.html");
+		});
+
+		function goPage(page) {
+			mui.openWindow({
+				url: page,
+				id: page
+			});
+		}
+
+		function plusReady() {
+			if(mui.os.ios) {
+				plus.navigator.setStatusBarBackground("#fafafa");
+			}
+
+		}
+		document.addEventListener("plusready", plusReady, false);
+	</script>
+
+</html>

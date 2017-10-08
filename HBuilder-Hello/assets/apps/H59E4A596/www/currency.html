@@ -1,0 +1,203 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/mui.picker.css" rel="stylesheet" />
+		<link href="css/mui.poppicker.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/base.css" />
+		<link rel="stylesheet" type="text/css" href="css/page.css" />
+		<link href="css/currency.css" rel="stylesheet" />
+		<link href="css/currency-icon/iconfont.css" rel="stylesheet" type="text/css" />
+
+		<style type="text/css">
+			.icon {
+				width: 1em;
+				height: 1em;
+				vertical-align: -0.15em;
+				fill: currentColor;
+				overflow: hidden;
+				/*padding-right: 0.2rem;*/
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="app-head clearfloat" id="header">
+			<a href="javascript:back()" class="fl box-s"><i class="iconfont icon-arrow-l fl"></i></a>
+			<a style="visibility: hidden; width: 20%" href="" class="fl box-s"><i class="iconfont icon-arrow-l fl"></i></a>
+			<p class="fl" style="width: 40%">Currency</p>
+		</div>
+		<div class="mui-content" style="padding-top: 55px;">
+			<div class="money-line" style="border-bottom: 1px solid #e7e7e7;">
+				<a class="money-type">
+					<svg class="icon" aria-hidden="true">
+						<use xlink:href="#icon-CHN"></use>
+					</svg><span style="padding-left: 0.2rem;">CNY</span><span class="mui-icon mui-icon-arrowright"></span>
+				</a><input class="money-input from focus" type="number" pattern="[0-9]" value="100" />
+			</div>
+			<div class="money-line">
+				<a class="money-type">
+					<svg class="icon" aria-hidden="true">
+						<use xlink:href="#icon-USA"></use>
+					</svg><span style="padding-left: 0.2rem;">USD</span><span class="mui-icon mui-icon-arrowright"></span>
+				</a><input class="money-input to" type="number" pattern="[0-9]" />
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/rem.js"></script>
+		<script src="js/jquery.min.js"></script>
+		<script src="js/base.js"></script>
+		<script src="js/mui.picker.js"></script>
+		<script src="js/mui.poppicker.js"></script>
+		<script src="css/currency-icon/iconfont.js"></script>
+		<script type="text/javascript">
+			function back() {
+				mui.back();
+			}
+			var nativeWebview, imm, InputMethodManager;
+			var initNativeObjects = function() {
+				if(mui.os.android) {
+					var main = plus.android.runtimeMainActivity();
+					var Context = plus.android.importClass("android.content.Context");
+					InputMethodManager = plus.android.importClass("android.view.inputmethod.InputMethodManager");
+					imm = main.getSystemService(Context.INPUT_METHOD_SERVICE);
+				} else {
+					nativeWebview = plus.webview.currentWebview().nativeInstanceObject();
+				}
+			};
+			var showSoftInput = function() {
+				if(mui.os.android) {
+					imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+				} else {
+					nativeWebview.plusCallMethod({
+						"setKeyboardDisplayRequiresUserAction": false
+					});
+				}
+				setTimeout(function() {
+					//此处可写具体逻辑设置获取焦点的input
+					var inputElem = document.querySelector('input');
+					inputElem.focus();
+				}, 100);
+			};
+			var currency = [];
+			var currencyName = [];
+			var picker = new mui.PopPicker();
+			mui.plusReady(function() {
+				initNativeObjects();
+				var fromUnit = 100,
+					toUnit;
+				$.ajax({
+					url: IP + "/oversea/currency.html",
+					type: "get",
+					dataType: "json",
+					success: function(data) {
+						for(var i = 0; i < data.length; i++) {
+							currencyName.push(data[i].name + data[i].code);
+							if(data[i].code === "USD") {
+								toUnit = data[i].price;
+								var from = $(".from").val();
+								$(".money-input:eq(1)").val((from * 100 / toUnit).toFixed(2));
+							}
+
+						}
+						currency = data;
+						picker.setData(currencyName);
+						showSoftInput();
+					}
+				});
+				$(".from").on("keyup", function() {
+					$(this).addClass("focus");
+					$(".to").removeClass("focus");
+					var fromPrice = $(this).val();
+					var transferPrice = fromUnit / toUnit * fromPrice;
+					$(".to").val(transferPrice.toFixed(2));
+
+				});
+				$(".to").on("keyup", function() {
+					$(this).addClass("focus");
+					$(".from").removeClass("focus");
+					var toPrice = $(this).val();
+					var transferPrice = toUnit / fromUnit * toPrice;
+					$(".from").val(transferPrice.toFixed(2));
+				});
+				$(".money-type").on("click", function() {
+					var $that = $(this);
+					var unit;
+					var nationalFlag;
+					picker.show(function(selectItem) {
+						selectItem = selectItem.toString().substr(selectItem.length - 4, 3);
+						for(var i = 0; i < currency.length; i++) {
+							console.log(selectItem);
+							if(currency[i].code == selectItem) {
+								var icon = "<span class='mui-icon mui-icon-arrowright'></span>";
+								switch(currency[i].code) {
+									case "CNY":
+										{
+											nationalFlag = "<svg class='icon' aria-hidden='true'><use xlink:href='#icon-CHN'></use></svg><span style='padding-left: 0.2rem;'>CNY</span>";
+											$that.html(nationalFlag + icon);
+											unit = currency[i].price;
+
+											break;
+										}
+									case "USD":
+										{
+											nationalFlag = "<svg class='icon' aria-hidden='true'><use xlink:href='#icon-USA'></use></svg><span style='padding-left: 0.2rem;'>USD	</span>";
+											$that.html(nationalFlag + icon);
+											unit = currency[i].price;
+											break;
+										}
+									case "JPY":
+										{
+											nationalFlag = "<svg class='icon' aria-hidden='true'><use xlink:href='#icon-riben1'></use></svg><span style='padding-left: 0.2rem;'>JPY</span>";
+											$that.html(nationalFlag + icon);
+											unit = currency[i].price;
+											break;
+										}
+									case "EUR":
+										{
+											nationalFlag = "<svg class='icon' aria-hidden='true'><use xlink:href='#icon-oumeng'></use></svg><span style='padding-left: 0.2rem;'>EUR</span>";
+											$that.html(nationalFlag + icon);
+											unit = currency[i].price;
+											break;
+										}
+									case "KRW":
+										{
+											nationalFlag = "<svg class='icon' aria-hidden='true'><use xlink:href='#icon-hanguo'></use></svg><span style='padding-left: 0.2rem;'>KRW</span>";
+											$that.html(nationalFlag + icon);
+											unit = currency[i].price;
+											break;
+										}
+								}
+							}
+						}
+						if($that.next().hasClass("from")) {
+							fromUnit = unit;
+							var toPrice = $(".to").val();
+							var transferPrice = toUnit / fromUnit * toPrice
+							$(".from").val(transferPrice.toFixed(2));
+						} else if($that.next().hasClass("to")) {
+							toUnit = unit;
+							var fromPrice = $(".from").val();
+							var transferPrice = fromUnit / toUnit * fromPrice;
+							$(".to").val(transferPrice.toFixed(2));
+						}
+					});
+				});
+			})
+			if(mui.os.ios) {
+				plus.navigator.setStatusBarBackground("#f7f7f7");
+			}
+			var old_back = mui.back;
+			mui.back = function() {
+				var id = plus.webview.getWebviewById('index.html');
+				mui.fire(id, 'init');
+				old_back();
+			}
+		</script>
+	</body>
+
+</html>

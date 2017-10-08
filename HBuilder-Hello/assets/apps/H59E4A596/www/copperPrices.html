@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/base.css" />
+		<link rel="stylesheet" type="text/css" href="css/page.css" />
+	</head>
+	<style>
+		.mui-bar {
+			background-color: #FAFAFA;
+			border-bottom: 1px solid #DFDFDF;
+			height: 54px;
+		}
+		.mui-bar .mui-icon-left-nav {
+			color: #7F7F7F;
+		}
+		.mui-bar .mui-title {
+			color: #7F7F7F;
+			font-size: 0.5rem;
+		}
+	</style>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">Copper Prices</h1>
+		</header>
+		<!--<div class="app-head clearfloat" id="header">
+			<a href="javascript:back()" class="fl box-s"><i class="iconfont icon-arrow-l fl"></i></a>
+			<a style="visibility: hidden; width: 20%" href="" class="fl box-s"><i class="iconfont icon-arrow-l fl"></i></a>
+			<p class="fl" style="width: 40%">Copper Prices</p>
+		</div>-->
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			if(mui.os.ios) {
+				plus.navigator.setStatusBarBackground("#f7f7f7");
+			}
+			var old_back = mui.back;
+			mui.back = function() {
+				var id = plus.webview.getWebviewById('index.html');
+				mui.fire(id, 'init');
+				old_back();
+			}
+
+			mui.init({
+				subpages: [{
+					url: "copperPriceSub.html",
+					id: "",
+					styles: {
+						top: '54px',
+						bottom: '0px'
+					}
+				}]
+			});
+
+		</script>
+	</body>
+
+</html>
+<script src="js/rem.js"></script>

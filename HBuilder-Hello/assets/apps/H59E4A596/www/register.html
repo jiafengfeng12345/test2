@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<title>博德高科 - 用户注册</title>
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script src="js/rem.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/all.css" />
+		<link rel="stylesheet" type="text/css" href="css/base.css" />
+		<link rel="stylesheet" type="text/css" href="css/page.css" />
+		<link rel="stylesheet" type="text/css" href="css/loaders.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/loading.css" />
+		<script type="text/javascript">
+			$(window).load(function() {
+				$(".loading").addClass("loader-chanage")
+				$(".loading").fadeOut(300)
+			})
+		</script>
+		 <link rel="shortcut icon" href="favicon.ico" />
+	</head>
+	<div class="loading">
+		<div class="loader">
+			<div class="loader-inner ball-pulse">
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
+		</div>
+	</div>
+	<body>
+		<div class="app-head clearfloat" id="header">
+			<a href="javascript:history.go(-1)" class="fl box-s"><i class="iconfont icon-arrow-l fl"></i></a>
+			<p class="fl">用户注册</p>
+		</div>
+
+		<div class="register clearfloat" id="main">
+			<ul>
+				<li class="clearfloat">
+					<p class="tit fl">用户名</p>
+					<input type="text"  value="" name="username" class="shuru fl" placeholder="请输入用户名" />
+				</li>
+				<li class="clearfloat">
+					<p class="tit fl">密码</p>
+					<input type="password" name="password"  value="" class="shuru fl" placeholder="请设置密码" />
+				</li>
+				<li class="clearfloat">
+					<p class="tit fl">确认密码</p>
+					<input type="password" name="repassword" value="" class="shuru fl" placeholder="请再次输入密码" />
+				</li>
+                <li class="clearfloat">
+                    <p class="tit fl">邮箱</p>
+                    <input type="text" name="email" value="" class="shuru fl" placeholder="请确保邮箱为常用邮箱" />
+                </li>
+
+            </ul>
+			<a href="javascript:void(0)" class="pay-btn clearfloat registerbtn">
+				注册
+			</a>
+			<div class="bottom clearfloat">
+				<span class="fl" href="login.html">注册即视为同意<a href="agreement.html">《博威高科用户注册协议》</a></span>
+			</div>
+		</div>
+	<div class="alert"></div>
+	</body>
+
+    <script type="text/javascript" src="js/hmt.js"></script>
+	<script type="text/javascript" src="js/base.js"></script>
+	<script>
+        $(function () {
+            var $username = $("input[name=username]");
+            var $password = $("input[name=password]");
+            var $repassword = $("input[name=repassword]");
+            var $email = $("input[name=email]");
+
+            var BASEURL="${pageContext.request.contextPath}/mobile/staff/";
+
+            var $btn = $(".registerbtn");
+
+
+            $btn.click(function () {
+                var username = $username.val()||"";
+                var password = $password.val()||"";
+                var repassword = $repassword.val()||"";
+                var email = $email.val()||"";
+                var atpos = email.indexOf("@");
+                var dotpos = email.lastIndexOf(".");
+
+
+                if (username.length == 0) {
+                    $.showAlert($(".alert"),"用户名不能为空");
+                    return false;
+                }else if(password!=""&&repassword!=""&&password!=repassword) {
+                    $.showAlert($(".alert"),"请输入相同的密码");
+                    return false;
+                } else{
+                    if (atpos<1 || dotpos<(atpos+2) || (dotpos+2)>=email.length){
+                        $.showAlert($(".alert"),"请输入正确的邮箱");
+                        return false;
+                    }
+                }
+                $.ajax({
+                    "url":IP + "/api/staff/register.html",
+                    "dataType":"JSON",
+                    "data":{"username":username,"password":password,"email":email},
+                    "success":function (data) {
+                        if(data.result!="error"){
+                            $.showAlert($(".alert"),data.content);
+                            window.location.href="home/index.html";
+                        }else{
+                            $.showAlert($(".alert"),data.content);
+                        }
+                    }
+                })
+            })
+
+        })
+	</script>
+</html>

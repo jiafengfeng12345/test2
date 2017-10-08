@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>博德高科 - 重置密码</title>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script src="js/rem.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/all.css"/>
+    <link rel="stylesheet" type="text/css" href="css/base.css"/>
+    <link rel="stylesheet" type="text/css" href="css/page.css"/>
+    <link rel="stylesheet" type="text/css" href="css/loaders.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/loading.css"/>
+    <script type="text/javascript">
+        $(window).load(function () {
+            $(".loading").addClass("loader-chanage");
+            $(".loading").fadeOut(300)
+        })
+    </script>
+     <link rel="shortcut icon" href="favicon.ico" />
+</head>
+<div class="loading">
+    <div class="loader">
+        <div class="loader-inner ball-pulse">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+<body>
+<div class="app-head clearfloat" id="header">
+    <a href="javascript:history.go(-1)" class="fl box-s"><i class="iconfont icon-arrow-l fl"></i></a>
+    <p class="fl">Reset password</p>
+</div>
+
+<div class="modify clearfloat" id="main">
+    <ul>
+        <li class="clearfloat">
+            <input type="text" name="newPassword" value="" placeholder="Please enter a new password" class="sname snametwo"/>
+        </li>
+        <li class="clearfloat">
+            <input type="text" name="repeatPassword" value="" placeholder="Please enter the new password again" class="sname snametwo"/>
+        </li>
+        <li class="clearfloat">
+            <input type="text" name="code" value="" placeholder="E-mail verification code" class="sname snametwo"/>
+        </li>
+    </ul>
+    <a href="javascript:void(0)" class="pay-btn clearfloat">
+        Confirm the changes
+    </a>
+</div>
+<div class="alert"></div>
+<script type="text/javascript" src="js/hmt.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script>
+    var $btn = $("a.pay-btn");
+    $btn.click(function () {
+    		var pass = $("input[name=newPassword]").val();
+    		var pass1 = $("input[name=repeatPassword]").val();
+    		var code = $("input[name=code]").val();
+    		if (pass === "") {
+    			$.showAlert($(".alert"),"Password can't be empty");
+    			return;
+    		}
+    		if (pass1 !== pass) {
+    			$.showAlert($(".alert"),"Password is inconsistent");
+    			return;
+    		}
+    		if (code === "") {
+    			$.showAlert($(".alert"),"The verification code can't be empty");
+    			return;
+    		}
+    		$.ajax({
+    			url:IP + "/oversea/staff/reset.html",
+    			dataType:"json",
+    			type:"post",
+    			data:{
+    				username:GetQueryString("userName"),
+    				newPassword:pass,
+    				key:GetQueryString("key"),
+    				code:code
+    			},
+    			success:function(data){
+    				if (data.result === "success") {
+    					location.href = "login.html";
+    				} else if(data.result === "error") {
+    					$.showAlert($(".alert"),data.content);
+    				}
+    			},
+    			error:function() {
+    				$.showAlert($(".alert"),"Network error");
+    			}
+    		})
+    });
+</script>
+</body>
+</html>

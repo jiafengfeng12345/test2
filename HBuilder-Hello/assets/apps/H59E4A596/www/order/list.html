@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<title>博德高科 - 我的订单</title>
+	<!--<script type="text/javascript" src="js/jquery.min.js"></script>-->
+	<link rel="stylesheet" href="../css/mui.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/all.css"/>
+	<link rel="stylesheet" type="text/css" href="../css/base.css"/>
+	<link rel="stylesheet" type="text/css" href="../css/page.css"/>
+	<link rel="stylesheet" type="text/css" href="../css/order.css"/>
+	<link rel="stylesheet" href="../css/bo/iconfont.css" />
+	<link rel="shortcut icon" href="favicon.ico"/>
+	<style>
+		.order{
+			position: fixed;
+			width: 100%;
+			top:-250px;
+			left:0;
+			background: #fff;
+			z-index: 99;
+		}
+		.order li{
+			margin-left: 5%;
+			height: 40px;
+			border-bottom: 1px solid #ccc;
+			line-height: 40px;
+		}
+		.order li:last-child{
+			border: 0;
+		}
+		.order li i.iconfont{
+			font-size: 37px;
+			float: right;
+			color:red;
+		}
+	</style>
+</head>
+<body style="padding-bottom: 0;">
+<ul class="order">
+	<li id="all">All orders<i class="iconfont icon-gou"></i></li>
+	<li id="pendingPayment">pendingPayment orders<i class="iconfont"></i></li>
+	<li id="pendingConfirm">pendingConfirm orders<i class="iconfont"></i></li>
+	<li id="confirm">confirmed orders<i class="iconfont"></i></li>
+	<li id="shipped">Shipped orders<i class="iconfont"></i></li>
+	<li id="pendingReview">pendingReview orders<i class="iconfont"></i></li>
+</ul>
+<div class="mui-content mui-scroll-wrapper" id="list" style="background-color: #f7f5f7;">
+	<div class="mui-scroll" style="overflow: hidden;">
+		<ul class="mui-table-view mui-table-view-chevron" style="background-color: #efeff4">
+
+		</ul>
+	</div>
+</div>
+</body>
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<script src="../js/rem.js"></script>
+<script type="text/javascript" src="../js/base.js"></script>
+<script src="../js/mui.min.js"></script>
+<script>
+	var type;
+	window.addEventListener("fresh",function(event){
+		var isShow = event.detail.isShow;
+		if(isShow){
+			$(".order").animate({top:"-250px"});
+		}else{
+			$(".order").animate({top:"-10px"});
+		}
+	});
+	$(".order").find("li").click(function(){
+		$(".order").find("li").find("i").removeClass("icon-gou");
+		$(this).find("i").addClass("icon-gou");
+		var parent = plus.webview.getWebviewById("order/head.html");
+		mui.fire(parent,"re",{
+			type:$(this).text()
+		})
+		$(".order").animate({top:"-250px"});
+		type = $(this).attr("id");
+		pullDown();
+	});
+	
+	var pageNumber = 1,
+		pageCount;
+	mui.init({
+		pullRefresh: {
+			container: '#list',
+			down: {
+				contentdown: "Pull-down refresh",
+				contentover: "Release immediately refresh",
+				contentrefresh: "Refreshing...",
+				callback: pullDown
+			},
+			up: {
+				contentrefresh: 'loading...',
+				callback: pullUp
+			}
+		}
+	});
+	window.addEventListener("inits",function(event){
+		type = event.detail.type;
+		pageNumber = 1;
+		$(".mui-table-view").empty();
+		getPageCount(type);
+		ajax(type);
+		mui('#list').pullRefresh().endPulldownToRefresh();
+		mui('#list').pullRefresh().enablePullupToRefresh();
+		mui('#list').pullRefresh().refresh(true);
+		$(".order").find("li").find("i").removeClass("icon-gou");
+		$(".order").find("i").eq(0).addClass("icon-gou");
+	});
+	function plusReady(){
+		type = plus.webview.currentWebview().data;
+		getPageCount(type);
+		ajax(type);
+	}
+	document.addEventListener("plusready",plusReady,false);
+//	$(".top-menu .menu-item a").on("tap", function () {
+//		pageNumber = 1;
+//		$(".mui-table-view").empty();
+//		ajax($(this).attr("class"));
+//		$(this).parent().addClass("active").siblings().removeClass("active");
+//	});
+	$("#list").on("tap", ".order-product", function () {
+		mui.openWindow({
+			url: "detail.html?id=" + $(this).find(".detail").attr("data-id")
+		});
+	});
+	$("#list").on("tap", ".buy-again-btn", function () {
+		var $products = $(this).parent().parent().find(".productId");
+		$.each($products, function () {
+			var $that = $(this);
+			$.ajax({
+				url: IP + "/sap/api/price.html",
+				type: "get",
+				data: { productId: $(this).val() },
+				dataType: "json",
+				async: false,
+				success: function (data) {
+					$.ajax({
+						url: IP + "/oversea/cart/add.html",
+						type: "get",
+						data: {
+							productId: $that.val(),
+							quantity: $that.next().val(),
+							price: data.price,
+							priceUnit: data.priceUnit,
+							clientQuotesId: data.clientQuotesId
+						},
+						dataType: "json",
+						success: function (data) {
+							mui.openWindow({
+								url: "../cart.html",
+								createNew:true
+							});
+						},
+						error: function () {
+							console.log("error");
+						}
+
+					});
+				},
+				error: function () {
+					console.log("error");
+				}
+			});
+		});
+	});
+	function pullDown() {
+		setTimeout(function () {
+			pageNumber = 1;
+			$(".mui-table-view").empty();
+			getPageCount(type);
+			ajax(type);
+			mui('#list').pullRefresh().endPulldownToRefresh();
+			mui('#list').pullRefresh().enablePullupToRefresh();
+			mui('#list').pullRefresh().refresh(true);
+		}, 500);
+	}
+
+	function pullUp() {
+		setTimeout(function () {
+			pageNumber++;
+			if(pageNumber > pageCount){
+				mui('#list').pullRefresh().endPullupToRefresh(true);
+				mui('#list').pullRefresh().disablePullupToRefresh();
+				plus.nativeUI.toast("no more data");
+			}else{
+				mui('#list').pullRefresh().endPullupToRefresh(false);
+			}
+			ajax(type);
+		},1000);
+	}
+
+	function getPageCount(type) {
+		$.ajax({
+			url: IP + "/oversea/order/listCount.html",
+			type: "get",
+			data: {
+				type: type,
+				pageSize: 2
+			},
+			dataType: "json",
+			success: function (data) {
+				pageCount = data;
+			},
+			error: function () {
+				console.log("网络异常");
+			}
+		});
+	}
+
+	function ajax(type) {
+		$.ajax({
+			url: IP + "/oversea/order/list.html",
+			type: "get",
+			data: {
+				type: type,
+				pageSize: 2,
+				pageNumber: pageNumber
+			},
+			dataType: "json",
+			success: function (data) {
+				var status;
+				if (data.length === 0 && $(".li").length === 0) {
+					$(".mui-table-view").empty().append("<div class='empty-list'><p>There is no content yet！</p></div>");
+				} else {
+					for (var i = 0; i < data.length; i++) {
+						switch (data[i].status) {
+							case "pendingPayment": {
+								status = "Unpaid";
+								break;
+							}
+							case "pendingConfirm": {
+								status = "Unconfirmed";
+								break;
+							}
+							case "confirm": {
+								status = "confirmed";
+								break;
+							}
+							case "shipped": {
+								status = "shipped";
+								break;
+							}
+							case "pendingReview": {
+								status = "Unreviewd";
+								break;
+							}
+							case "completed": {
+								status = "completed";
+								break;
+							}
+							case "canceled": {
+								status = "canceled";
+								break;
+							}
+							case "closed": {
+								status = "closed";
+								break;
+							}
+						}
+						
+						var priceUnit = data[i].itemDtos[0].priceUnit;
+						var priceCode = "";
+						if(priceUnit == "RMB"){
+							priceCode = "RMB¥";
+						}else if(priceUnit == "USD"){
+							priceCode = "$";
+						}else if(priceUnit == "EUR"){
+							priceCode = "€";
+						}else if(priceUnit == "CAD"){
+							priceCode = "C$";
+						}else if(priceUnit == "JPY"){
+							priceCode = "JPY¥";
+						}
+						
+						var moreThanOne = false;
+						if (data[i].itemDtos.length > 1) {
+							moreThanOne = true;
+						}
+						if (!moreThanOne) {
+							var orderItem =
+								"<li class='li'>" +
+								"<div class='order-item'>" +
+								"<div class='order-head clear-float'> " +
+								"<p class='order-creator'>" + "Creator:" + data[i].username + "</p>" +
+								"<p class='order-status'>" + status + "</p>" +
+								"</div>" +
+								"<div class='order-product clear-float'> " +
+								"<a class='detail' target='_top' data-id='" + data[i].id + "'>" +
+								"<input type='hidden' class='productId' value='" + data[i].itemDtos[0].productId + "'/>" +
+								"<input type='hidden' class='quantity' value=' " + data[i].itemDtos[0].quantity + "'/>" +
+								"<div class='img clear-float' >" +
+								"<span></span>" +
+								"<img src='" + data[i].itemDtos[0].imgSrc + "'/>" +
+								"</div>" +
+								"<div class='right clear-float'> " +
+								"<div class='tit clear-float'> " + "<p>" + data[i].itemDtos[0].seriesName + "</p>" + "</div>" +
+								"<p class='describe'> " + data[i].itemDtos[0].describe + "</p>" +
+								"<div class='price clear-float'><samp> " + data[i].itemDtos[0].price + "/Kg" + "</samp></div>" +
+								"</div>" +
+								"</a>" +
+								"</div>" +
+								"<div class='price-num clear-float'> " +
+								"<span>Order time：&nbsp;" + data[i].createDate + "</span>" +
+								"<span>Quantity：&nbsp;" + data[i].quantity + "</span>" +
+								"<span style='color: #b52a3a;'>Total：&nbsp;" + priceCode + " " + data[i].amount + "</span>" +
+								"</div>" +
+								"<div class='btn-area clear-float'> " +
+								"<a class='buy-again-btn entrust-btn' data-id='" + data[i].id + "'>Buy again</a>";
+							if (data[i].status === "pendingConfirm") {
+								orderItem +=
+									"</div>" +
+									"</div></li>";
+							} else if (data[i].status === "pendingPayment") {
+								orderItem +=
+									"<a href='' class='entrust-btn'> Pay </a>" +
+									"</div>" +
+									"</div></li>";
+							} else if (data[i].status === "pendingReview") {
+								orderItem +=
+									"<a href='' class='entrust-btn'>Review</a>" +
+									"</div>" +
+									"</div></li>";
+							} else if (data[i].status === "shipped") {
+								orderItem +=
+									"<a class='entrust-btn rent-btn'>查看物流</a> " +
+									"<a href='' class='entrust-btn'>Review</a>" +
+									"</div>" +
+									"</div></li>";
+							}
+							$(".mui-table-view").append(orderItem);
+						} else {
+							var orderItem =
+								"<li class='li'>" +
+								"<div class='order-item'>" +
+								"<div class='order-head clear-float'> " +
+								"<p class='order-creator'>" + "Creator：" + data[i].username + "</p>" +
+								"<p class='order-status'>" + status + "</p>" +
+								"</div>" +
+								"<div class='order-product'> " +
+								"<a class='detail' target='_top' data-id='" + data[i].id + "'>";
+							if (data[i].itemDtos.length <= 4) {
+								for (var j = 0; j < data[i].itemDtos.length; j++) {
+									orderItem +=
+										"<div class='img clear-float' >" +
+										"<span></span>" +
+											"<input type='hidden' class='productId' value='" + data[i].itemDtos[j].productId + "'/>" +
+											"<input type='hidden' class='quantity' value='" + data[i].itemDtos[j].quantity + "'/>" +
+										"<img src='" + data[i].itemDtos[j].imgSrc + "'/>" +
+										"</div>";
+								}
+							} else {
+								for (var j = 0; j < 4; j++) {
+									orderItem +=
+										"<div class='img clear-float' >" +
+										"<span></span>" +
+										"<img src='" + data[i].itemDtos[j].imgSrc + "'/>" +
+										"</div>";
+								}
+							}
+							orderItem +=
+								"</a>" +
+								"</div>" +
+								"<div class='price-num clear-float'> " +
+								"<span>Order time：&nbsp;" + data[i].createDate + "</span>" +
+								"<span>Quantity：&nbsp;" + data[i].quantity + "</span>" +
+								"<span style='color: #b52a3a;'>Total：&nbsp;" + priceCode + " " + data[i].amount + "</span>" +
+								"</div>" +
+								"<div class='btn-area clear-float'> " +
+								"<a class='buy-again-btn entrust-btn' data-id='" + data[i].id + "'>Buy again</a>";
+							if (data[i].status === "pendingConfirm") {
+								orderItem +=
+									"</div>" +
+									"</div></li>";
+							} else if (data[i].status === "pendingPayment") {
+								orderItem +=
+									"<a href='' class='entrust-btn'> Pay </a>" +
+									"</div>" +
+									"</div></li>";
+							} else if (data[i].status === "pendingReview") {
+								orderItem +=
+									"<a href='' class='entrust-btn'>Review</a>" +
+									"</div>" +
+									"</div></li>";
+							} else if (data[i].status === "shipped") {
+								orderItem +=
+									"<a class='entrust-btn rent-btn'>查看物流</a> " +
+									"<a href='' class='entrust-btn'>Review</a>" +
+									"</div>" +
+									"</div></li>";
+							}
+							$(".mui-table-view").append(orderItem);
+						}
+
+					}
+				}
+			},
+			error: function () {
+				console.log("网络异常");
+			}
+		})
+
+	}
+</script>
+</html>

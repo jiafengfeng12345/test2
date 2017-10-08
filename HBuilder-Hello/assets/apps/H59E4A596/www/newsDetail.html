@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/loaders.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/loading.css" />
+		<script src="js/jquery.min.js"></script>
+		<script type="text/javascript">
+			$(window).load(function() {
+				$(".loading").addClass("loader-chanage")
+				$(".loading").fadeOut(300)
+			})
+		</script>
+		<style>
+			body {
+				background-color: #f6f6f6 !important;
+			}
+			.mui-content {
+				padding: 70px 15px 20px 15px !important;
+				background-color: #f6f6f6 !important;
+			}
+			div.title {
+				font-size: 0.6rem;
+			    line-height: 0.7rem;
+			    font-weight: 500;
+			    padding: 0 0 .2rem;
+			    color: #404040;
+			}
+			p.info {
+				    font-size: .38rem;
+				    font-weight: 400;
+				    margin: 0 0 .12rem;
+				    color: #888;
+			}
+			span.author {
+			    padding-left: 0.2rem;
+			}
+			div.content {
+			    padding-top: 10px;
+			    text-align: justify;
+			    /*text-indent: 2em;*/
+			    font-size: 0.5rem;
+			    line-height: 1.5em;
+			    word-break: break-all;
+			    color: #404040;
+			    /*font-weight: 300;*/
+			}
+			div.content *{
+				/*font-size: 0.5rem;*/
+				/*color: #404040;*/
+			    line-height: 1.5em;
+			}
+			div.content img {
+				display: block;
+				width: auto;
+				min-width: 80%;
+				max-width: 100%;
+				height: auto;
+				max-height: 200px;
+				margin-left: auto;
+				margin-right: auto;
+				padding-top: 5px;
+				padding-bottom: 5px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">新闻频道</h1>
+		</header>
+		<div class="mui-content">
+		    <div class="title">
+		    		<!--注意！！！宁波要挂台风了,请做好预防准备-->
+		    </div>
+		    <p class="info"><span class="date"><!--2017-08-09--></span> <span class="author"><!--管理员--></span></p>
+		    <div class="content">
+		    		<!--注意！！！宁波要挂台风了,请做好预防准备-->
+		    </div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/base.js"></script>
+		<script src="js/rem.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			$.ajax({
+				url:IP + "/oversea/news/view.html?id=" + GetQueryString("id"),
+				type:"post",
+				dataType:"json",
+				success:function(data) {
+					if(data !== null) {
+						$(".title").html(data.title);
+						$(".date").html(data.publishDate);
+						$(".author").html(data.author);
+						$(".content").html(data.content);
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

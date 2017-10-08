@@ -1,0 +1,123 @@
+.rent .top {
+    border-width: 0px;
+}
+#main .addrSelect {
+    border-width: 0px;
+}
+#main .addrSelect {
+    position: relative;
+    padding-bottom: 0.2rem;
+    background: #fff;
+    color: #333;
+    font-size: 0.3733rem;
+    border-bottom: 1px solid #ddd;
+    min-height: 1.5rem;
+}
+.rent .top ul {
+    padding-top: 10px;
+}
+.rent .top ul li {
+    float: none;
+    height: 0.6rem;
+    line-height: 0.6rem;
+    padding-left: 0.2rem;
+    width: 100%;
+}
+.rent .top span:first-child {
+    color: #666;
+}
+.rent .top ul li span {
+    padding-right: 0.2rem;
+    color: #666;
+}
+.rent .top span {
+    color: #333333;
+    width: 2.7rem;
+}
+.order {
+    margin-top: .2rem !important;
+}
+.orderstatus {
+    height: 0.8rem;
+    line-height: 0.8rem;
+    width: 100%;
+    border-bottom: 1px solid #dfdfdf;
+    color: black;
+}
+.orderStatus span:first-child {
+    font-size: 0.4rem;
+}
+.orderStatus span {
+    height: 0.8rem;
+    line-height: 0.8rem;
+    font-size: 0.37333rem;
+    text-align: center;
+    font-weight: 400;
+}
+.orderStatus .status {
+    padding-right: 0.4rem;
+    float: right;
+    color: #b4282d;
+}
+.schedule .content .list .tu {
+    height: 1.86667rem;
+    width: 1.86667rem;
+}
+.schedule .content .list .tu img {
+    margin-top: 10%;
+    height: 80%;
+    width: 80%;
+}
+.schedule .content .list .right {
+    width: 70%;
+}
+.schedule .content .list .right .tit p {
+    color: #5a5a5a;
+}
+.schedule .content .list .right .tit p {
+    width: 100%;
+}
+.rent .top {
+    border-width: 0px;
+}
+.userAddress {
+    height: 1.4rem;
+    border-bottom: 1px solid #dfdfdf;
+    margin-bottom: 0.1rem;
+}
+
+.userAddress p {
+    height: 0.53rem;
+    line-height: 0.53rem;
+    font-size: 0.38rem;
+    color: #555;
+}
+.rent .top span:first-child {
+    color: #666;
+}
+.top .userAddress p span {
+    color: #555;
+}
+.rent .top span {
+    width: 3rem;
+}
+.top .userAddress p span {
+    color: #555;
+}
+.topsche-top .add, .topsche-top .time {
+    line-height: 0.2rem;
+}
+.add {
+    color: #000 !important;
+}
+div.add.summary>div {
+    display: flex;
+    justify-content: space-between;
+}
+.orderInfo div:first-child {
+    margin-top: 0.4rem;
+}
+.orderInfo div {
+    height: 0.7rem;
+    line-height: 0.7rem;
+}

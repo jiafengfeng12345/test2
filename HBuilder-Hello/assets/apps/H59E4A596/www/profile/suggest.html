@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN" style="font-size: 34.722px;">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<title>博德高科 - 意见反馈</title>
+	<script type="text/javascript" src="../js/jquery.min.js"></script>
+	<script src="../js/rem.js"></script>
+	<link rel="stylesheet" type="text/css" href="../css/all.css">
+	<link rel="stylesheet" type="text/css" href="../css/base.css">
+	<link rel="stylesheet" type="text/css" href="../css/page.css">
+	<link rel="stylesheet" type="text/css" href="../css/loaders.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/loading.css">
+	<script type="text/javascript">
+		$(window).load(function () {
+			$(".loading").addClass("loader-chanage")
+			$(".loading").fadeOut(300)
+		})
+	</script>
+	<link rel="shortcut icon" href="favicon.ico"/>
+</head>
+
+<body>
+
+<div class="app-head clearfloat" id="header">
+	<a href="javascript:back()" class="fl box-s"><i class="iconfont icon-arrow-l fl"></i></a>
+	<p class="fl">Feedback</p>
+</div>
+
+<div class="suggest clearfloat" id="main" style="padding-top: 48px;">
+	<div class="top clearfloat">
+		<textarea name="" rows="10" cols="" class="tarea fr box-s" placeholder="Please fill in your feedback"></textarea>
+	</div>
+
+	<a href="javascript:void(0)" class="pay-btn clearfloat feedback-btn"> submit </a>
+</div>
+<div class="alert"></div>
+<script type="text/javascript" src="../js/hmt.js"></script>
+<script type="text/javascript" src="../js/base.js"></script>
+<script type="text/javascript" src="../js/mui.min.js"></script>
+<script type="text/javascript">
+	function back() {
+		mui.back();
+	}
+	function level(s) {
+		var str = '';
+		var k = 6 - s;
+		for (i = 1; i < s + 1; i++) {
+			str += "<img onclick='level(" + i + ")' src='img/detail-iocn01.png'/>";
+		}
+		for (j = 1; j < k; j++) {
+			var d = j + s;
+			str += "<img onclick='level(" + d + ")' src='img/detail-iocn001.png'/>";
+		}
+		$('.assess-right').html(str);
+	}
+	$('a.feedback-btn').click(function () {
+		$.post(IP + "/admin/feedback/submit.html",
+			{ staffId: "oversea", content: $('textarea').val() }).success(function (data) {
+			var obj = JSON.parse(data);
+			if (obj.result === 'success') {
+				plus.nativeUI.toast("Submit success and thank you for your feedback");
+				mui.back();
+			} else {
+				plus.nativeUI.toast("If the submission fails,please contact the administrator and try again");
+			}
+		}).fail(function () {
+			plus.nativeUI.toast("Please check your network");
+		})
+	})
+
+</script>
+
+</body>

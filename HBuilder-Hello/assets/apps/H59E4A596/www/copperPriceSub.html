@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Copper</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css">
+	</head>
+
+	<body>
+		<!--下拉刷新容器-->
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<!--数据列表-->
+				<ul class="mui-table-view mui-table-view-chevron">
+
+				</ul>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/rem.js"></script>
+		<script src="js/jquery.min.js"></script>
+		<script src="js/base.js"></script>
+		<script>
+			var pageNumber = 1,
+				pageCount;
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						contentdown: "Pull-down refresh",
+						contentover: "Release immediately refresh",
+						contentrefresh: "Refreshing...",
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: 'loading...',
+						callback: pullupRefresh
+					}
+				}
+			});
+			/**
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+
+				setTimeout(function() {
+
+					pageNumber = 1;
+					$(".mui-table-view").empty();
+					getPageCount();
+					ajax();
+					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+//					mui('#pullrefresh').pullRefresh().disablePullupToRefresh();
+					mui('#pullrefresh').pullRefresh().refresh(true);
+				}, 1500);
+			}
+
+			/**
+			 * 上拉加载具体业务实现
+			 */
+			function pullupRefresh() {
+				setTimeout(function() {
+					pageNumber++;
+					if(pageNumber > pageCount) {
+						mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+						mui('#pullrefresh').pullRefresh().disablePullupToRefresh(false);
+						plus.nativeUI.toast("no more data");
+					} else {
+						mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);
+					}
+					ajax();
+				}, 1500);
+			}
+			mui.plusReady(function() {
+				//				pulldownRefresh();
+				//				mui("#pullrefresh").pullRefresh().pulldownLoading();
+				
+				getPageCount();
+				ajax();
+			});
+
+			function getPageCount() {
+				$.ajax({
+					url: IP + "/oversea/copperPricePageCount.html",
+					type: "get",
+					data: {
+						pageSize: 20
+					},
+					dataType: "json",
+					success: function(data) {
+						pageCount = data;
+					},
+					error: function() {
+						console.log("error");
+					}
+				});
+			}
+
+			function ajax() {
+				$.ajax({
+					url: IP + "/oversea/copperPrice.html",
+					type: "get",
+					data: {
+						pageSize: 20,
+						pageNumber: pageNumber
+					},
+					dataType: "json",
+					success: function(data) {
+
+						for(var i = 0; i < data.length; i++) {
+							var date = data[i].date;
+							//								date = date.substring(4, date.length);
+							var li = "<li class='mui-table-view-cell'>" +
+								"<span>" + date + "</span>" +
+								"<span style='float: right'>" + data[i].settlement + "</span>" +
+								"</li>";
+							$(".mui-table-view").append(li);
+						}
+					}
+				});
+			}
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,345 @@
+.goodsdetail{
+    position: relative;
+}
+.goodsdetail a:link, a:visited {
+    color: #333;
+}
+
+.goodsdetail a {
+    text-decoration: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.goodsdetail i {
+    font-size: 0.5rem;
+}
+
+.goodsdetail .swiper-container {
+    width: 100%;
+    z-index: 0;
+    max-height: 8rem;
+    height: 8rem;
+}
+
+.goodsdetail .swiper-slide {
+    text-align: center;
+    font-size: 1rem;
+    background: #fff;
+    position: relative;
+    /* Center slide text vertically */
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    
+    background: #faf8fb;
+}
+
+.goodsdetail .swiper-pagination-bullet-active{
+	background: #b4282d !important;
+}
+
+.goodsdetail .img {
+    width: 100%;
+    height: 8rem;
+    
+    width: 5rem;
+    height: 5rem;
+}
+
+.goodsdetail .goodsinfo .info {
+    padding: 0.5rem 0.4rem 0.3rem;
+    text-align: center;
+}
+
+.goodsdetail .goodsinfo .info .name {
+    margin-bottom: .13rem;
+    line-height: 1;
+    font-size: .65rem;
+    color: #333;
+}
+
+.goodsdetail .goodsinfo .info .description {
+    margin-bottom: .133rem;
+    line-height: 1;
+    font-size: .6rem;
+    color: #333;
+}
+
+.goodsdetail .goodsinfo .info .price {
+    margin-bottom: .133rem;
+    line-height: 1;
+    font-size: .8rem;
+    color: darkred;
+}
+
+.goodsdetail .detail-body .listItem {
+    border-top: 6px solid #eeeeee;
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: .2rem;
+    line-height: 1rem;
+    height: 1rem;
+    z-index: 0;
+}
+
+.goodsdetail .detail-body{
+    background-color: #ffffff;
+}
+
+.goodsdetail .detail-body .listItem > i {
+    font-size: .7rem;
+    position: absolute;
+    right: .1rem;
+}
+
+.goodsdetail .detail-body .listItem .inner {
+
+    font-size: .25rem;
+    text-align: center;
+    padding-left: .3rem;
+
+}
+
+.goodsdetail .detail-body .serviceItem {
+    border-top: 6px solid #eeeeee;
+    border-bottom: .2rem solid #f4f4f4;
+    position: relative;
+    display: flex;
+    align-items: center;
+    line-height: 1.3rem;
+    height: 1.3rem;
+    z-index: 0;
+}
+
+.goodsdetail .serviceItem > i {
+    font-size: 0.7rem;
+    margin-right: .1rem;
+}
+
+.goodsdetail .detail-body .serviceItem .inner {
+    align-self: flex-start;
+    font-size: .25rem;
+    padding-left: .3rem;
+    margin-right: .3rem;
+}
+
+.goodsdetail .detail-body .serviceItem .right {
+    flex: 1;
+    -webkit-flex: 1;
+    margin: .2rem 0;
+}
+
+.goodsdetail .detail-body .serviceItem .right .rightItem {
+    position: relative;
+    font-size: .21rem;
+    float: left;
+    padding-left: .2rem;
+    margin-right: .5rem;
+    margin-top: .15rem;
+    line-height: 1;
+}
+
+.goodsdetail .detail-body .serviceItem > a {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    padding-right: .12rem;
+    padding-bottom: .2rem;
+}
+
+.rightItem:before {
+    content: "";
+    position: absolute;
+    width: .10667rem;
+    height: .10667rem;
+    background: #b4282d;
+    border-radius: 100%;
+    left: 0;
+    top: 30%;
+}
+
+.goodsdetail .detail-body .evaluation {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: .2rem;
+    line-height: 1rem;
+    height: 1rem;
+    z-index: 0;
+}
+
+.goodsdetail .evalinner {
+    font-size: .25rem;
+    padding-left: .3rem;
+}
+
+.goodsdetail .evalinner-right {
+    font-size: .2rem;
+    position: absolute;
+    right: .1rem;
+}
+
+.goodsdetail .evalinner-right > span {
+    padding-right: .2rem;
+    padding-bottom: .1rem;
+    font-size: .3rem;
+}
+
+.goodsdetail .evalinner-right > i {
+    font-size: .7rem;
+    top: .15rem;
+    position: relative;
+}
+
+.goodsdetail .newevaluation {
+    padding: 0 .4rem;
+    border-bottom: .2rem solid #f4f4f4;
+    position: relative;
+    z-index: 0;
+}
+
+.goodsdetail .newevaluation .comment header {
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+    padding: .4rem 0 .28rem;
+}
+
+.goodsdetail .left {
+    display: flex;
+    align-items: center;
+}
+
+.goodsdetail .leftimg {
+    width: .85333rem;
+    height: .85333rem;
+    margin-right: .21333rem;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.goodsdetail .itemdetail {
+    position: relative;
+    z-index: 0;
+}
+
+.goodsdetail .name {
+    font-size: .25rem;
+}
+
+.goodsdetail .itemsection {
+}
+
+.goodsdetail .itemsection {
+    padding: .3rem;
+}
+
+.goodsdetail .tt {
+    padding: .1rem 0 .3rem;
+    font-size: .3rem;
+}
+
+.goodsdetail .attritem {
+    zoom: 1;
+    font-size: .28rem;
+    line-height: .58667rem;
+    padding: .13333rem .4rem .13333rem 0;
+    background-image: linear-gradient(to right, #919191 33%, rgba(255, 255, 255, 0) 0);
+    background-position: top;
+    background-size: 12px 1px;
+    background-repeat: repeat-x;
+}
+
+.goodsdetail .attrleft {
+    float: left;
+    width: 1.97333rem;
+    position: relative;
+    color: #999;
+}
+
+.goodsdetail .attrright {
+    margin-left: 2rem;
+    color: #999;
+}
+
+.goodsdetail .dtsection1 {
+    position: relative;
+    z-index: 0;
+}
+
+.goodsdetail .dtsection2 {
+    position: relative;
+    z-index: 0;
+}
+
+.goodsdetail .foot {
+    background-color: #fff;
+    height: 1.3rem;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    z-index: 4;
+}
+
+.goodsdetail .concatbtn {
+    flex-shrink: 0;
+    flex-grow: 0;
+    width: 2rem;
+}
+
+.goodsdetail .buy {
+    background-color: #fff;
+    font-size: .3rem;
+    text-align: center;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0;
+    border-right: 0;
+    border: 1px solid #c7c7c7;
+    color: #333;
+    display: inline-block;
+    width: .6rem;
+    height:1rem;
+    line-height: 1rem;
+}
+
+.goodsdetail .back{
+    flex-grow: 1;
+    padding-left: 1.5rem;
+}
+
+.goodsdetail .back>a{
+    height: 1.3rem;
+    line-height: 1.3rem;
+    width: 100%;
+    display: block;
+}
+
+.goodsdetail .shopcar {
+    background-color: #b4282d;
+    font-size: .3rem;
+    text-align: center;
+    flex-grow: 4;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0;
+    border-right: 0;
+    color: #fff;
+    display: inline-block;
+    width: .5rem;
+    border-color: #b4282d;
+    border-bottom: 0;
+}

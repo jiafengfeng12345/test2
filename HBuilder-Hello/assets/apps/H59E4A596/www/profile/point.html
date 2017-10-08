@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>博德高科 - 我的积分</title>
+   <script type="text/javascript" src="../js/jquery.min.js"></script>
+		<script src="../js/rem.js"></script>
+		<script src="../js/base.js"></script>
+		<link rel="stylesheet" type="text/css" href="../css/all.css" />
+		<link rel="stylesheet" type="text/css" href="../css/base.css" />
+		<link rel="stylesheet" type="text/css" href="../css/page.css" />
+		<link rel="stylesheet" type="text/css" href="../css/loaders.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/loading.css" />
+		<style>
+			.noticetwo .list dt span{
+				font-size:16px;
+			}
+		</style>
+		<script type="text/javascript">
+			$(window).load(function() {
+				$(".loading").addClass("loader-chanage");
+				$(".loading").fadeOut(300);
+			});
+		</script>
+		 <link rel="shortcut icon" href="favicon.ico" />
+		 <script type="text/javascript" src="../js/mui.min.js" ></script>
+</head>
+
+	<body>
+		<div class="app-head clearfloat" id="header">
+			<a href="javascript:back()" class="fl box-s"><i class="iconfont icon-arrow-l fl"></i></a>
+			<p class="fl">My point</p>
+		</div>
+		
+		<div class="profit clearfloat" id="main">
+			<div class="top clearfloat box-s">
+				<p class="fl">Available point：<span>300</span></p>
+			</div>
+			
+			<div class="bottom clearfloat">
+				<div class="noticetwo">
+					<div class="tab-hd clearfloat">
+						<!-- <ul class="tab-nav clearfloat">
+						  <li><a href="#">收入记录</a></li>
+						  <li><a href="#">支出记录</a></li>
+						</ul> -->
+					</div>
+					<div class="tab-bd clearfloat">
+						<div class="tab-pal pointList">
+							<dl class="list clearfloat box-s fl">
+								<dt>
+									<p class="fl">Give point</p>
+									<span class="fr">+0.00</span>
+								</dt>
+								<dd>2017-9-06</dd>
+							</dl>
+						</div>
+						<!--<div class="tab-pal">
+						</div>-->
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../js/hmt.js" ></script>
+	<script type="text/javascript" src="../js/mui.min.js"></script>
+	<script>
+		function back(){
+			var pre = plus.webview.getWebviewById("profile/index.html");
+			mui.fire(pre,"init");
+			mui.back();
+		}
+		function fmtDate(obj){
+		    var date =  new Date(obj);
+		    var y = 1900+date.getYear();
+		    var m = "0"+(date.getMonth()+1);
+		    var d = "0"+date.getDate();
+		    return y+"-"+m.substring(m.length-2,m.length)+"-"+d.substring(d.length-2,d.length);
+		}
+		var totalPont = 0;
+		$.ajax({
+			type:"post",
+			url:IP + "/oversea/point.html",
+			async:true,
+			dataType:"json",
+			success:function(data) {
+				if (data.result === "success") {
+					var content = data.content;
+					if (content !== null) {
+						var html = '';
+						for(var i=0; i<content.length; i++) {
+							item = content[i];
+							var dl = '<dl class="list clearfloat box-s fl">' +
+								'<dt>' +
+									'<p class="fl">Give point</p>' +
+									'<span class="fr">+'+item.credit.toFixed(2)+'</span>' +
+								'</dt>' +
+								'<dd>'+fmtDate(item.createDate)+'</dd>' +
+							'</dl>';
+							html += dl;
+							totalPont = totalPont + item.credit.toFixed(2);
+						}
+						$(".pointList").html(html);
+						$(".f1").find("span").text(totalPont);
+					}
+					
+					
+				}
+			},
+			error:function() {
+				
+			}
+		});
+		function plusReady(){
+			if (mui.os.ios) {
+			plus.navigator.setStatusBarBackground("#fafafa");
+			}
+		}
+		document.addEventListener("plusready",plusReady,false);
+	</script>
+</html>

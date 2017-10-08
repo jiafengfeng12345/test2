@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>与客服聊天</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<link rel="stylesheet" type="text/css" href="css/base.css"/>
+	<link rel="stylesheet" href="css/chat.css">
+</head>
+<body>
+
+<div class="app-head clearfloat" id="header">
+	<a href="javascript:back()" class="fl box-s"><i class="iconfont icon-arrow-l fl"></i></a>
+	<p class="fl" style="color: #b4282b">Customer service</p>
+</div>
+<div class="cl">
+	<div class="chat_tbody">
+		<div class="chat_body" id="chat_body">
+		</div>
+		<div class="chat_footer">
+			<div class="chat_bar">
+				<img src="img/chat_file.jpg" class="chat_file">
+				<div style="display: none;">
+					<form enctype="multipart/form-data" class="chat_fileForm">
+						<input type="file" name="file" class="chat_fileInput" accept="image/gif,image/jpeg,image/jpg,image/png">
+					</form>
+				</div>
+			</div>
+			<div style="padding: 5px 10px 5px 10px;height: 30px;">
+				<div class="chat_textarea chat_empty" contenteditable="true">
+					please enter...
+				</div>
+				<button class="chat_send">send</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="dojo/dojo/dojo.js" djConfig="parseOnLoad:true"></script>
+<!--<script type="text/javascript" src="dojo/dojox/cometd/timestamp.js"></script>-->
+<!--<script type="text/javascript" src="dojo/dojox/cometd.js"></script>-->
+<script src="js/jquery.min.js"></script>
+<script src="js/chat.js"></script>
+<script src="js/jquery.form.js"></script>
+<script src="js/rem.js"></script>
+<script src="js/base.js"></script>
+<script src="js/mui.min.js"></script>
+<script>
+	
+	var staffId = GetQueryString("staffId");
+	var staffName = GetQueryString("staffName");
+	console.log(staffId);
+	console.log(staffName);
+	
+	if (mui.os.ios) {
+		plus.navigator.setStatusBarBackground("#fafafa");
+	}
+	
+	function back() {
+		$.ajax({
+			url:IP + "/chat/clientDisconnect.html",
+			type:"post",
+			dataType:"json",
+			data:{
+				id:staffId
+			},
+			async:false,
+			success:function (data) {
+				
+			},
+			error:function () {
+			}
+		});
+		var id = plus.webview.getWebviewById('index.html');
+		mui.fire(id,'init');
+		mui.back();
+	}
+	
+	var connectFlag = false;
+	dojo.require("dojox.cometd");  
+	dojo.require("dojox.cometd.timestamp");
+	console.log(location.href);
+
+	chat.data.sendTx = "img/client.png";
+	chat.data.receiveTx = "img/kefu.png";
+
+	function callback(msg) {
+		if (msg.data.from === "client") {
+		    if (msg.data.type === "text") {
+	            chat.sendText(msg.data.msg);
+			} else if (msg.data.type === "img") {
+		        chat.sendImg(msg.data.msg);
+			}
+		} else if (msg.data.from === "kefu") {
+		    connectFlag = true;
+	        if (msg.data.type === "text") {
+	            chat.receiveText(msg.data.msg);
+	        } else if (msg.data.type === "img") {
+	            chat.receiveImg(msg.data.msg);
+	        } else if (msg.data.type === "msg") {
+	            chat.sendPrompt(msg.data.msg);
+			}
+	    }
+	}  
+  	
+	dojox.cometd.init(IP + "/cometd/cometd");
+	dojox.cometd.subscribe("/" + staffId, callback);
+	
+	$(".chat_send").click(function () {
+	    if (!$chat_textarea.hasClass("chat_empty") && $chat_textarea.html() !== "") {
+	        var msg = $chat_textarea.html();
+	        dojox.cometd.publish('/' + staffId, { "msg": msg,"name":staffName,"id":staffId,from:'client',type:'text'});
+	        $chat_textarea.html("");
+	        $chat_textarea.blur();
+	    }
+	});
+
+	$(".chat_file").click(function () {
+		$(".chat_fileInput").click();
+	});
+	$(".chat_fileInput").change(function () {
+	    var target = this;
+	    var name = target.value;
+	    var fileName = name.substring(name.lastIndexOf(".")+1).toLowerCase();
+	    if (fileName !== 'gif' && fileName !== 'jpeg' && fileName !== 'jpg' && fileName !== 'png') {
+	        alert("只支持gif,jpeg,jpg,png,svg");
+	        return false;
+	    }
+	    var option = {
+	        url:IP + "/chat/uploadImg.html",
+			type:"post",
+	        dataType:"json",
+	        success:function (data) {
+	            if (data.result === "success"){
+	                setTimeout(function () {
+	                    dojox.cometd.publish('/' + staffId, { "msg": data.content,"name":staffName,"id":staffId,from:'client',type:'img'});
+	                },1000);
+				}
+	
+	        }
+	    };
+	    $(".chat_fileForm").ajaxSubmit(option);
+	});
+	$.ajax({
+	    url:IP + "/chat/findHistory.html",
+		type:"post",
+		dataType:"json",
+		data:{
+	        staffId:staffId
+		},
+		async:false,
+		success:function (data) {
+		    if (data != null) {
+	            for(var i=0;i < data.length;i ++) {
+					var msg = data[i];
+					if (msg.msgType === "text") {
+					    if (msg.fromType === "kefu") {
+					        chat.receiveText(msg.content);
+	                    } else if (msg.fromType === "client") {
+					        chat.sendText(msg.content);
+	                    }
+	                } else if(msg.msgType === "img") {
+	                    if (msg.fromType === "kefu") {
+	                        chat.receiveImg(msg.content);
+	                    } else if (msg.fromType === "client") {
+	                        chat.sendImg(msg.content);
+	                    }
+	                }
+	            }
+	        }
+	    },
+	    error:function () {
+	        chat.sendPrompt("Message History can't be Loaded");
+	    }
+	});
+
+	var time;
+	var flag = false;
+	chat.sendPrompt("Thanks for consulting. Connecting to the Customers Service...");
+	function timeout() {
+		$.ajax({
+			url:IP + "/chat/clientConnect.html",
+			type:"post",
+			dataType:"json",
+			data:{
+				id:staffId
+			},
+			success:function (data) {
+				if (data.result === "success") {
+					if (!flag) {
+						if (data.content === "unlink") {
+//				            chat.sendPrompt("欢迎咨询，正在为您连接客服...");
+						} else if (data.content === "link") {
+							chat.sendPrompt("Customer Service Connected");
+							dojox.cometd.publish('/' + staffId, { "msg": "Customer Connected","name":staffName,"id":staffId,from:'client',type:'msg'});
+							connectFlag = true;
+						}
+						flag = true;
+					} else {
+						if (connectFlag === true) {
+							if (data.content === "unlink") {
+								chat.sendPrompt("Disconnected with Customer Service");
+								connectFlag = false;
+							}
+						}
+
+					}
+
+				}
+			}
+		});
+	}
+	time = setInterval(timeout,2000);
+
+</script>
+</body>
+</html>

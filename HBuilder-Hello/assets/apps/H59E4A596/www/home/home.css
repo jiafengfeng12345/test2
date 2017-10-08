@@ -1,0 +1,104 @@
+.seriesAdd {
+	position: absolute;
+    right: 20px;
+    color: #929292 !important;
+    font-weight: bold;
+    display: inline-block;
+    width: 40px;
+    height:18px;
+    border: 1px solid #a5a5a5;
+    line-height: 18px;
+    text-align: center;
+}
+.seriesBody {
+	
+}
+.seriesCancel {
+	    color: #ccc;
+    position: absolute;
+    right: 5px;
+    font-size: 0.54rem;
+    top: -5px;
+    padding: 10px 10px;
+}
+.seriesImg {
+	padding: 25px 20px 10px 20px;
+	position: relative;
+	border-bottom: 1px solid #e3e5e9;
+}
+.seriesImg div {
+	border-radius: 3px;
+    border: 1px solid #f0f1f3;
+    width: 80px;
+    height: 80px;
+    text-align: center;
+    padding-top: 10px;
+}
+.seriesImg img {
+	height: 60px;
+    width: 60px;
+}
+.seriesImg .seriesPrice {
+	position: absolute;
+    bottom: 6px;
+    left: 110px;
+    color: #ab2b2b;
+    font-size: 0.5rem;
+}
+.seriesGuiGe{
+	padding: 5px 20px 5px 20px;
+}
+.seriesGuiGe p {
+	font-size: 0.42rem;
+}
+.seriesGuiGe span {
+	font-size: 0.36rem;
+    border: 1px solid #e3e5e9;
+    padding: 5px 15px 5px 15px;
+    margin-right: 10px;
+    border-radius: 4px;
+}
+.seriesGuiGe span.active {
+	border-color: #ab2b2b;
+	/*color: white;*/
+}
+.addCart {
+	height: 1.3rem;
+    font-size: 0.5rem;
+    line-height: 1.3rem;
+    width: 100%;
+    text-align: center;
+    background-color: #ab2b2b;
+    color: white;
+    /* padding-top: 5px; */
+    margin-top: 10px;
+    position: absolute;
+    bottom: 0px;
+}
+.priceType {
+	    font-size: 0.3rem;
+    margin-left: 10px;
+    color: white;
+    background-color: red;
+    padding: 2px 5px 2px 5px;
+    border-radius: 3px;  
+    display: none;
+}
+.modeType {
+	font-size: 0.38rem;
+    margin-left: 10px;
+    display: none;
+}
+.seriesName {
+	position: absolute;
+    top: 30px;
+    left: 110px;
+    font-size: 0.56rem;
+    color: black;
+}
+.mui-bar-tab .mui-tab-item.mui-active{
+	color: #bf4051;
+}
+.mui-icon i{
+	font-size: 21px;
+}

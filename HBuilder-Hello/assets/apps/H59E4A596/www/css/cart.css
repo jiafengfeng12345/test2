@@ -1,0 +1,227 @@
+.shoppingcar {
+  background-color: #f4f4f4; }
+
+  .shoppingcar footer {
+    border: none; }
+  .shoppingcar .red {
+    color: #b4282b;
+    font-size: .35rem; }
+  .shoppingcar .app-head p {
+    color: #b4282b; }
+  .shoppingcar .empty {
+    background-color: #f4f4f4;
+    margin-top: 4.8rem;
+    text-align: center;
+    font-size: .8rem;
+    color: #999; }
+  .shoppingcar .img {
+    width: 2rem;
+    height: 2rem;
+    position: relative; }
+  .shoppingcar .right {
+    float: right; }
+  .shoppingcar .main {
+    padding: 1.5rem 0 3rem; }
+  .shoppingcar .main .delete{
+      position: absolute;
+      width: 11%;
+      z-index: 100;
+      font-size: .3rem;
+      height: 100%;
+      right: -12%;
+      top: 0;
+      background-color: #b4282b;
+      color: #fff;
+      border: 1px solid #b4282b;
+    }
+    .shoppingcar .main .shopping-header {
+      top: 0;
+      left: 0;
+      width: 100%;
+      position: fixed;
+      z-index: 4; }
+      .shoppingcar .main .shopping-header .shopping-header-con {
+        height: 1rem;
+        padding: 0 .4rem;
+        line-height: .5rem;
+        text-align: center;
+        background-color: #fff;
+        position: relative; }
+        .shoppingcar .main .shopping-header .shopping-header-con .title {
+          display: inline-block;
+          font-size: .4rem;
+          color: #333; }
+        .shoppingcar .main .shopping-header .shopping-header-con .edit {
+          font-size: .3rem;
+          position: absolute;
+          right: .4rem;
+          top: .25rem;
+          color: #333; }
+    .shoppingcar .main .detail .goodsGroup {
+      margin: 0;
+      padding: 0;
+      border-bottom: 2px solid #eeeeee; }
+      .shoppingcar .main .detail .goodsGroup .goodsItem {
+        font-size: 0.3rem;
+        position: relative;
+        list-style-type: none;
+        margin-top: .2rem;
+        padding: 0 .2rem;
+        background-color: #ffffff; }
+        .shoppingcar .main .detail .goodsGroup .goodsItem .inner-goodsItem {
+          display: flex;
+          padding-top: .2rem;
+          justify-content: space-between; }
+    .shoppingcar .main .detail .checked {
+      position: relative;
+      font-size: .5rem; }
+      .shoppingcar .main .detail .checked:before {
+        content: "\F00C";
+        color: #BBBBBB;
+        position: absolute;
+        background-color: #b4282b;
+        top: 0;
+        right: 0;
+        z-index: 1000;
+        display: inline-block;
+        font: normal normal normal 14px/1 FontAwesome;
+        font-size: inherit;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased; }
+    .shoppingcar .main .detail .img-wrapper {
+      position: relative; }
+      .shoppingcar .main .detail .img-wrapper .img-out {
+        height: 2.3rem; }
+      .shoppingcar .main .detail .img-wrapper .goods-select {
+        font-size: .3rem;
+        width: 1.8rem;
+        margin-top: .1rem; }
+        .shoppingcar .main .detail .img-wrapper .goods-select .option {
+          font-size: .15rem; }
+      .shoppingcar .main .detail .img-wrapper .othername {
+        margin-top: .1rem;
+        font-size: .25rem;
+        background-color: #FFFFCF;
+        width: 1.6rem;
+        color: #9D9D6D; }
+    .shoppingcar .main .detail .goods-type > p {
+      margin-bottom: .15rem; }
+      .shoppingcar .main .detail .goods-type > p > span {
+        font-size: .25rem;
+        margin-right: .2rem; }
+    .shoppingcar .main .detail .num-select .num {
+      font-size: .35rem;
+      width: 1.2rem;
+      height: .4rem;
+      margin-right: .1rem;
+      border: 1px solid #BBBBBB;
+      padding: 0.05rem;
+      outline: none; }
+    .shoppingcar .main .detail .num-select .unit {
+      font-size: .4rem;
+      color: #999999; }
+    .shoppingcar .main .detail .num-select .tips {
+      color: #999999;
+      margin-top: .3rem; }
+    .shoppingcar .main .detail .numerror {
+      border-color: #b4282b !important; }
+      .shoppingcar .main .detail .numerror ~ .error {
+        visibility: visible !important; }
+    .shoppingcar .main .detail .error {
+      color: #b4282b;
+      font-size: .25rem;
+      display: block;
+      margin: .05rem 0;
+      visibility: hidden; }
+    .shoppingcar .main .detail .select-price {
+      margin-top: .2rem;
+      border-bottom: 1px solid #BBBBBB;
+      padding-bottom: .2rem; }
+      .shoppingcar .main .detail .select-price .radio {
+        display: inline-block;
+        margin: .05rem;
+        margin-right: .2rem;
+        font-size: .25rem; }
+      .shoppingcar .main .detail .select-price .price-choice {
+        width: .5rem;
+        height: .5rem;
+        vertical-align: text-bottom; }
+    .shoppingcar .main .detail .item-total {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      min-height: 1.2rem; }
+      .shoppingcar .main .detail .item-total > button {
+        font-size: .3rem;
+        background-color: #fff;
+        color: #333333;
+        border-radius: 4px;
+        padding: .1rem;
+        margin-left: .3rem;
+        border: 1px solid;
+        outline: none; }
+    .shoppingcar .main .order {
+      position: fixed;
+      bottom: 1.3rem;
+      z-index: 4;
+      background-color: #ffffff;
+      height: 1.3rem;
+      width: 100%;
+      left: 0;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #BBBBBB; }
+      .shoppingcar .main .order .allSelect {
+        flex-grow: 1;
+        height: 100%;
+        line-height: 1.7rem; }
+        .shoppingcar .main .order .allSelect .fa-stack-1x {
+          font-size: 1.5em;
+          line-height: normal; }
+        .shoppingcar .main .order .allSelect .whiteI {
+          color: #ffffff; }
+        .shoppingcar .main .order .allSelect > i {
+          font-size: .4rem;
+          position: relative;
+          bottom: .3rem;
+          left: .4rem; }
+        .shoppingcar .main .order .allSelect > span {
+          display: inline-block;
+          font-size: .3rem;
+          margin: 0;
+          position: relative;
+          left: .3rem;
+          bottom: .35rem;
+          color: #333; }
+        .shoppingcar .main .order .allSelect .checkSpan {
+          bottom: .15rem;
+          left: .45rem;
+          height: .6rem; }
+        .shoppingcar .main .order .allSelect .allchecked i {
+          color: #b4282b !important; }
+      .shoppingcar .main .order .price {
+        flex-grow: 1;
+        height: 100%;
+        text-align: center;
+        line-height: 1.5rem;
+        width: 20%;
+        font-size: .5rem; }
+        .shoppingcar .main .order .price > span {
+          font-size: .5rem;
+          color: #b4282b; }
+      .shoppingcar .main .order .orderBtn {
+        flex-grow: 2;
+        height: 100%;
+        font-size: 0.5rem;
+        flex-shrink: 0;
+        text-align: center;
+        line-height: 1.3rem;
+        color: #fff;
+        background-color: #b4282b;
+        max-width: 35%; }
+      .shoppingcar .main .order .disablebtn {
+        background-color: #ccc;
+        outline: none;
+      }
+
+/*# sourceMappingURL=cart.css.map */

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>博德高科 - 忘记密码</title>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script src="js/rem.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/all.css"/>
+    <link rel="stylesheet" type="text/css" href="css/base.css"/>
+    <link rel="stylesheet" type="text/css" href="css/page.css"/>
+    <link rel="stylesheet" type="text/css" href="css/loaders.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/loading.css"/>
+    <script type="text/javascript">
+        $(window).load(function () {
+            $(".loading").addClass("loader-chanage")
+            $(".loading").fadeOut(300)
+        })
+    </script>
+    <link rel="shortcut icon" href="favicon.ico"/>
+</head>
+<!--loading页开始-->
+<div class="loading">
+    <div class="loader">
+        <div class="loader-inner ball-pulse">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+<!--loading页结束-->
+
+<body>
+<div class="app-head clearfloat" id="header">
+    <a href="javascript:history.go(-1)" class="fl box-s"><i class="iconfont icon-arrow-l fl"></i></a>
+    <p class="fl">find password</p>
+</div>
+
+<div class="modify clearfloat" id="main">
+    <ul>
+        <li class="clearfloat">
+            <input type="text" name="username" value="" placeholder="Username" class="sname"/>
+        </li>
+        <li class="clearfloat">
+            <input type="text" name="email" value="" placeholder="Mailbox for registration" class="syzma fl"/>
+        </li>
+    </ul>
+    <a href="javascript:void(0)" class="pay-btn clearfloat reset">
+        Submit
+    </a>
+</div>
+<div class="alert"></div>
+</body>
+<script type="text/javascript" src="js/hmt.js"></script>
+<script type="text/javascript" src="js/forget.js"></script>
+<script type="text/javascript" src="js/base.js" ></script>
+<script>
+    (function () {
+        var $reset = $(".reset");
+        // var $message = $(".message");
+        var $username = $("input[name=username]");
+        var $email = $("input[name=email]");
+        // var $alert = $(".alert");
+        $reset.click(function () {
+            $.ajax({
+                "url": IP + "/oversea/staff/find.html",
+                "type": "post",
+                "data": {"username": $username.val(), "email": $email.val()},
+                "dataType": "JSON",
+                "success": function (data) {
+                		if (data.result === "success") {
+                			var content = data.content;
+//              			location.href = "reset.html?userName="+content.userName+"&key="+content.key;
+						location.href = "reset.html?" + data.content;
+                		} else if (data.result === "error"){
+                			$.showAlert($(".alert"),data.content);
+                		}
+                }
+            })
+        })
+    })();
+</script>
+</html>
